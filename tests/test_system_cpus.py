@@ -8,7 +8,7 @@ import unittest
 from bronx.fancies import loggers
 from bronx.system.cpus import CpusToolUnavailableError, LinuxCpusInfo
 
-DATADIR = os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'data'))
+DATADIR = os.path.realpath(os.path.join(os.path.dirname(__file__), 'data'))
 
 
 class LinuxCpusInfoTester(LinuxCpusInfo):

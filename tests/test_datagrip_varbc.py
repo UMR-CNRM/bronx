@@ -22,7 +22,7 @@ if npchecker.is_available():
 from bronx.datagrip import varbcheaders
 
 
-DATADIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
+DATADIR = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data'))
 
 
 def _find_testfile(fname):

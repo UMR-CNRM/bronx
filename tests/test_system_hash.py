@@ -11,7 +11,7 @@ import unittest
 
 from bronx.system.hash import HashAdapter
 
-DATADIR = os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'data'))
+DATADIR = os.path.realpath(os.path.join(os.path.dirname(__file__), 'data'))
 
 
 class TestHashAdapter(unittest.TestCase):
