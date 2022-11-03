@@ -5,7 +5,6 @@ from __future__ import print_function, absolute_import, unicode_literals, divisi
 import unittest
 
 from bronx.syntax import dictmerge, mktuple
-from footprints.stdtypes import FPDict
 
 
 class Foo(object):
@@ -41,12 +40,6 @@ class utDictMerge(unittest.TestCase):
             dict(b=7, c=dict(val='updatedfoo', other=dict(arg='hip', foo=False))),
         )
         self.assertDictEqual(rv, dict(a=2, b=7, c=dict(val='updatedfoo', other=dict(arg='hip', foo=False), bonus=1)))
-        # NB: FPDicts are not merged recursively
-        rv = dictmerge(
-            dict(a=2, c=dict(val='foo', other=dict(arg='hop'), bonus=1)),
-            dict(b=7, c=FPDict(val='updatedfoo', other=dict(arg='hip', foo=False))),
-        )
-        self.assertDictEqual(rv, dict(a=2, b=7, c=FPDict(val='updatedfoo', other=dict(arg='hip', foo=False))))
 
 
 class utMktuple(unittest.TestCase):

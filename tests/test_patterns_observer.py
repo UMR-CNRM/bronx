@@ -8,24 +8,6 @@ from unittest import TestCase, main
 
 from bronx.patterns import observer
 
-from footprints import FootprintBase
-
-
-class FootprintTestObserversOne(FootprintBase):
-    _footprint = dict(
-        info = 'Test class',
-        attr = dict(
-            very_unlikely = dict(
-            ),
-        )
-    )
-
-
-class FootprintTestObserversTwo(FootprintTestObserversOne):
-    _footprint = dict(
-        info = 'Another test class',
-    )
-
 
 class SlurpObserver(observer.Observer):
 
@@ -66,12 +48,6 @@ class Foo(object):
 # Tests for footprints observers
 
 class utObservers(TestCase):
-
-    def test_observers_exists(self):
-        rv = list(observer.keys())
-        for o in [__name__ + '.FootprintTestObserversOne',
-                  __name__ + '.FootprintTestObserversTwo', ]:
-            self.assertIn(o, rv,)
 
     def test_observers_bases(self):
         sec_obs = observer.SecludedObserverBoard()
