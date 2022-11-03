@@ -2,6 +2,7 @@
 
 [![example workflow](https://github.com/meunierlf/bronx-beta/actions/workflows/lint_test_and_doc.yml/badge.svg)](https://github.com/meunierlf/bronx-beta/actions/workflows/lint_test_and_doc.yml)
 [![Documentation Status](https://readthedocs.org/projects/bronx-beta/badge/?version=latest)](https://bronx-beta.readthedocs.io/en/latest/?badge=latest)
+[![PyPI version](https://badge.fury.io/py/bronx-beta.svg)](https://badge.fury.io/py/bronx-beta)
 
 *bronx* stands for "Bunch of Reusable Objects Not in vorteX". It is a collection
 of basic utilities that can be used in various projects.
