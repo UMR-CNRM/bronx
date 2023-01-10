@@ -1,7 +1,7 @@
 # bronx
 
 [![example workflow](https://github.com/UMR-CNRM/bronx/actions/workflows/lint_test_and_doc.yml/badge.svg)](https://github.com/UMR-CNRM/bronx/actions/workflows/lint_test_and_doc.yml)
-[![Documentation Status](https://readthedocs.org/projects/bronx/badge/?version=latest)](https://bronx.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/bronx/badge/?version=latest)](https://bronx.readthedocs.io/)
 [![PyPI version](https://badge.fury.io/py/bronx.svg)](https://badge.fury.io/py/bronx)
 
 *bronx* stands for "Bunch of Reusable Objects Not in vorteX". It is a collection
