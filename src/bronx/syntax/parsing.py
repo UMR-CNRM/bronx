@@ -103,10 +103,10 @@ class StringDecoder(object):
     If **substitution_cb** is *None*, the substitution mechanism should not be
     used since it would lead to a :class:`StringDecoderSubstError` exception.
 
-    A cache mechanism is used to lesser the cost of string parsing when the
-    several identical calls are made. As a consequence, the same object can be
-    returned by two subsequent calls. This can be deactivated using the
-    **with_cache** constructor's argument.
+    A cache mechanism is used to lesser the cost of string parsing when several
+    identical calls are made. As a consequence, the same object can be returned
+    by two subsequent calls. This can be deactivated using the **with_cache**
+    constructor's argument.
 
     The following exception may be raised:
 
