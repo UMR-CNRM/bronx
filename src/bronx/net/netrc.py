@@ -2,10 +2,10 @@
 
 """An object-oriented interface to .netrc files.
 
-This code has been extacted from Python 3.5 and two patches have been applied:
+This code has been extracted from Python 3.5 and two patches have been applied:
 
-* With this class, the user **login** taken into accout when looking for .netrc
-  lines (see the **login** argument for the :func:`netrc.authenticators` method.
+* With this class, the user **login** is taken into account when looking for .netrc
+  lines (see the **login** argument for the :func:`netrc.authenticators` method).
 * Password can be surrounded with simple or double quotes (for compatibility
   with the standard Linux FTP client).
 
