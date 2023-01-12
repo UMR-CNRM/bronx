@@ -125,9 +125,6 @@ Clean things up...
     >>> demofile2.close()
 
 """
-
-from __future__ import print_function, absolute_import, unicode_literals, division
-
 import netCDF4
 import numpy as np
 

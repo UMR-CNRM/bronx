@@ -4,7 +4,6 @@
 Some types to manage history of commands, actions, etc.
 """
 
-from __future__ import print_function, absolute_import, division, unicode_literals
 import six
 
 import collections

@@ -4,8 +4,6 @@
 Conversion functions or classes.
 """
 
-from __future__ import print_function, absolute_import, unicode_literals, division
-
 import numpy
 
 from .constants import Rd, Rv

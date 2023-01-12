@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-
-from __future__ import print_function, absolute_import, unicode_literals, division
-
 from collections import defaultdict
 import gc
 from unittest import TestCase, main

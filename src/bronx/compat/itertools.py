@@ -6,9 +6,6 @@ Compatibility for some of the features of the itertools modules.
 The pairwise function was introduced with Python3.10, we provide here a close approximation.
 The real thing is used from 3.10 and on.
 """
-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import itertools
 
 import six

@@ -157,8 +157,6 @@ On Belenos (2x AMD Rome socket with 64 cores each)::
 
 """
 
-from __future__ import print_function, absolute_import, unicode_literals, division
-
 import six
 
 import abc

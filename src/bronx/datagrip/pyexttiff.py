@@ -8,7 +8,6 @@ This module uses code from pylibtiff (https://pypi.python.org/pypi/libtiff,
 https://code.google.com/p/pylibtiff or https://github.com/hmeine/pylibtiff)
 """
 
-from __future__ import print_function, absolute_import, division  # , unicode_literals
 import six
 
 import io

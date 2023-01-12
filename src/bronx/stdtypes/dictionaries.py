@@ -4,8 +4,6 @@
 Structure or dictionary like classes for miscellaneous usage.
 """
 
-from __future__ import print_function, absolute_import, division, unicode_literals
-
 import six
 
 from bronx.compat.moves import collections_abc

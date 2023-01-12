@@ -9,8 +9,6 @@ on Python 3.8+ the :class:`cached_property` decorator from the standard library
 is used.
 """
 
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import sys
 from threading import RLock
 

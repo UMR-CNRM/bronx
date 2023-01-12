@@ -2,8 +2,6 @@
 
 """Utility class to read the headers of a VarBC files."""
 
-from __future__ import print_function, absolute_import, unicode_literals, division
-
 import re
 
 from bronx.compat.moves import collections_abc

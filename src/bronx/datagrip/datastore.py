@@ -5,8 +5,6 @@ A simplified key/value embedded-database.
 
 See the :class:`DataStore` class docstring for an example.
 """
-
-from __future__ import print_function, absolute_import, unicode_literals, division
 import six
 
 import collections

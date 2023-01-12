@@ -16,9 +16,6 @@ This module contains:
 
 Inital author: Joris Picot (2010-12-08 / CERFACS)
 """
-
-from __future__ import print_function, absolute_import, division, unicode_literals
-
 import collections
 import copy
 import io

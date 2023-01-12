@@ -6,8 +6,6 @@ A templating system for nested dictionaries and lists.
 The :class:`DefaultTemplate` class should be used directly. See its documentation.
 """
 
-from __future__ import print_function, absolute_import, division, unicode_literals
-
 import six
 
 import copy

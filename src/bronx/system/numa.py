@@ -80,9 +80,6 @@ On Belenos (2x AMD Rome socket with 64 cores each)::
      [124, 125, 126, 127]]
 
 """
-
-from __future__ import print_function, absolute_import, unicode_literals, division
-
 import six
 
 import abc

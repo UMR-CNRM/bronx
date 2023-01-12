@@ -5,9 +5,6 @@ Utilities to work on file descriptors through the standard Linux C layer.
 
 The name of this module is directly inspired from the eponym C library.
 """
-
-from __future__ import print_function, absolute_import, unicode_literals, division
-
 import io
 from contextlib import contextmanager
 import os

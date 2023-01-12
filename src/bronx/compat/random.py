@@ -8,7 +8,6 @@ If you do not care about random number generation reproducibility, please use
 the bare :class:`random.Random` class.
 """
 
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import random as _barerandom
 from math import ceil as _ceil, log as _log

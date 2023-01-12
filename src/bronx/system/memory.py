@@ -9,7 +9,6 @@ At the present time, the only concrete implementation is
 the :class:`LinuxMemInfo`.
 """
 
-from __future__ import print_function, absolute_import, unicode_literals, division
 import six
 
 import abc

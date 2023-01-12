@@ -46,8 +46,6 @@ Example of that also checks a version number::
 
 """
 
-from __future__ import print_function, absolute_import, unicode_literals, division
-
 import re
 import sys
 import traceback

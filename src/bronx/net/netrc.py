@@ -19,8 +19,6 @@ This code has been extacted from Python 3.5 and two patches have been applied:
 # Proposed patch applied: https://bugs.python.org/issue11416
 # LFM: netrc._passwd_clean regex introduced to remove matching quotes
 
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import io
 import os
 import re

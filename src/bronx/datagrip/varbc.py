@@ -6,8 +6,6 @@ The :class:`VarbcFile` should be used to read VarBC files (see its documentation
 below).
 """
 
-from __future__ import print_function, absolute_import, unicode_literals, division
-
 import six
 
 from collections import namedtuple, OrderedDict

@@ -5,9 +5,6 @@
 # LFM: from test import support -> from test import test_support (for ptyhon2.7)
 # LFM: test for quoted password
 # LFM: test of test.support removed
-
-from __future__ import print_function, absolute_import, unicode_literals, division
-
 import bronx.net.netrc as netrc
 import contextlib
 import io
