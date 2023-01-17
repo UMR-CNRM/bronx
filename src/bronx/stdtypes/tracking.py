@@ -354,7 +354,7 @@ class RecursiveMappingTracker(MappingTracker):
                             ))
                         else:
                             xresult = v.dump_str('deleted', 'created', 'updated', with_empty=False)
-                            xresult = '\n'.join([self._level_indent + l for l in xresult.split('\n')])
+                            xresult = '\n'.join([self._level_indent + line for line in xresult.split('\n')])
                             result.append('{0:s} {1:s}:\n{2:s}'.format(
                                 self._dump_tr.get(section, ' '), k, xresult
                             ))
