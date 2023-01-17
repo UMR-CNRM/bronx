@@ -110,7 +110,7 @@ def setGlobalLevel(level):
     if thislevel is None:
         print('ERROR!!! Try to set an unknown log level {:s}'.format(level))
     else:
-        for a_logger in [logging.getLogger(l) for l in roots | lognames]:
+        for a_logger in [logging.getLogger(lg) for lg in roots | lognames]:
             a_logger.setLevel(logging.NOTSET)
         _logging_root.setLevel(thislevel)
     return thislevel
@@ -130,8 +130,8 @@ def contextboundGlobalLevel(level):
         yield
     else:
         with _logging_threading_lock:
-            known_loggers = [logging.getLogger(l) for l in roots | lognames]
-            known_levels = [l.level for l in known_loggers]
+            known_loggers = [logging.getLogger(lg) for lg in roots | lognames]
+            known_levels = [lg.level for lg in known_loggers]
             for a_logger in known_loggers:
                 a_logger.setLevel(logging.NOTSET)
             previous_r_logger_level = _logging_root.level
@@ -209,8 +209,8 @@ def unittestGlobalLevel(level):
         else:
             def setUp(self):
                 with _logging_threading_lock:
-                    self._log_known_loggers = [logging.getLogger(l) for l in roots | lognames]
-                    self._log_known_levels = [l.level for l in self._log_known_loggers]
+                    self._log_known_loggers = [logging.getLogger(lg) for lg in roots | lognames]
+                    self._log_known_levels = [lg.level for lg in self._log_known_loggers]
                     for a_logger in self._log_known_loggers:
                         a_logger.setLevel(logging.NOTSET)
                     self._log_r_logger_level = _logging_root.level

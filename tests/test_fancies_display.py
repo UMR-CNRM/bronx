@@ -14,7 +14,7 @@ class FanciesDisplayTest(unittest.TestCase):
     def _divert_stdin(self, *lines):
         oldstdin = sys.stdin
         newstdin = StringIO()
-        newstdin.writelines([l + '\n' for l in lines])
+        newstdin.writelines([line + '\n' for line in lines])
         newstdin.seek(0)
         sys.stdin = newstdin
         yield
@@ -37,7 +37,7 @@ class FanciesDisplayTest(unittest.TestCase):
         yield
         sys.stdout = oldstdout
         newstdout.seek(0)
-        s_list.extend([l.rstrip('\n') for l in newstdout.readlines()])
+        s_list.extend([line.rstrip('\n') for line in newstdout.readlines()])
 
     def test_query_yes_no(self):
         with self._quiet_stdout():

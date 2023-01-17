@@ -8,6 +8,8 @@ import unittest
 
 from bronx.syntax.externalcode import ExternalCodeImportChecker
 
+from bronx.datagrip import varbcheaders
+
 # Numpy is not mandatory
 npchecker = ExternalCodeImportChecker('numpy')
 with npchecker as npregister:
@@ -15,8 +17,6 @@ with npchecker as npregister:
 
 if npchecker.is_available():
     from bronx.datagrip import varbc
-
-from bronx.datagrip import varbcheaders
 
 
 DATADIR = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data'))
