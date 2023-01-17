@@ -5,8 +5,6 @@ A simplified key/value embedded-database.
 
 See the :class:`DataStore` class docstring for an example.
 """
-import six
-
 import collections
 import functools
 import io
@@ -66,7 +64,7 @@ class _DataStoreEntryKey(object):
 
     def __iter__(self):
         """Iterates through *extras*."""
-        for k, v in six.iteritems(self._extras):
+        for k, v in self._extras.items():
             yield (k, v)
 
     def __eq__(self, other):
@@ -234,7 +232,7 @@ class DataStore(object):
         if not isinstance(extras, dict):
             raise ValueError("The 'extras' needs to be dictionary of hashables.")
         result = self._index['kind'][kind].copy()
-        for k, v in six.iteritems(extras):
+        for k, v in extras.items():
             result &= self._index[k][v]
         return {k: self._store[k] for k in result}
 
@@ -282,7 +280,7 @@ class DataStore(object):
             unpickled = pickle.load(pfh)
         # Build the new store dictionary
         newstore = dict()
-        for k, v in six.iteritems(unpickled[0]):
+        for k, v in unpickled[0].items():
             if k in self._store and hasattr(self._store[k], 'datastore_inplace_overwrite'):
                 # In some particular cases, we want the an existing object to
                 # reset itself. I guess we could call that an inplace overwrite
@@ -294,7 +292,7 @@ class DataStore(object):
         self._reset_internal_state()
         self._store = newstore
         self._lock = unpickled[1]
-        for k in six.iterkeys(self._store):
+        for k in self._store.keys():
             self._index_update(k)
 
     def keys(self):
@@ -303,7 +301,7 @@ class DataStore(object):
 
     def __iter__(self):
         """Iterate over the DataStore's items."""
-        for k, v in six.iteritems(self._store):
+        for k, v in self._store.items():
             # Return copies of keys so that the _index WeakSet remain unperturbed
             yield (k, v)
 

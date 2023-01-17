@@ -376,46 +376,6 @@ class LinuxCpusInfo(CpusInfo):
                 self._cpus[cpu_n] = CpuInfo(**cpu)
         return self._cpus
 
-
-if six.PY2:
-
-    def get_affinity(pid=None):
-        """Get the cpu affinity of a process. Returns None if no affinity is set."""
-        if pid is None:
-            pid = os.getpid()
-        _re_get_out = re.compile(r'.*:\s*(?P<binproc>[0-9a-f]+)\s*$')
-        try:
-            t_out = subprocess.check_output([AFFINITY_CMD, '-p', str(pid)])
-        except OSError:
-            raise CpusToolUnavailableError('No {:s} command on this system.'.format(AFFINITY_CMD))
-        locencode = locale.getlocale()[1] or 'ascii'
-        uni_out = t_out.decode(locencode, 'replace')  # Unicode stuff...
-        binproc = int(_re_get_out.match(uni_out).group('binproc'), 16)  # It's hexadecimal
-        binlist = list()
-        while binproc:
-            binlist.append(binproc % 2)
-            binproc = binproc >> 1
-        list_of_cpus = [i for i, v in enumerate(binlist) if v]
-        return set(list_of_cpus)
-
-    def set_affinity(cpus, pid=None):
-        """Set the cpu affinity of a process."""
-        if pid is None:
-            pid = os.getpid()
-        if isinstance(cpus, int):
-            cpus = [cpus]
-        cpus = ','.join([str(c) for c in cpus])
-        try:
-            subprocess.check_output([AFFINITY_CMD, '-p', '--cpu-list', cpus, str(pid)], stderr=subprocess.STDOUT)
-        except OSError:
-            raise CpusToolUnavailableError('No {:s} command on this system.'.format(AFFINITY_CMD))
-        except subprocess.CalledProcessError as e:
-            logger.error(str(e))
-            logger.error("stdout/stderr: %s", e.output)
-            raise
-
-else:
-
     def get_affinity(pid=None):
         """Get the cpu affinity of a process. Returns None if no affinity is set."""
         if pid is None:

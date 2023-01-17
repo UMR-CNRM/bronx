@@ -4,7 +4,6 @@
 Syntax useful tools.
 """
 
-import six
 import copy
 
 #: No automatic export
@@ -36,7 +35,7 @@ def dictmerge(d1, d2):
         True
 
     """
-    for key, value in six.iteritems(d2):
+    for key, value in d2.items():
         if isinstance(value, dict) and not value.__class__.__name__.startswith('FP'):
             if key in d1 and isinstance(d1[key], dict) and not value.__class__.__name__.startswith('FP'):
                 dictmerge(d1[key], d2[key])

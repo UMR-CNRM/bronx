@@ -12,9 +12,7 @@ is used.
 import sys
 from threading import RLock
 
-import six
-
-if six.PY2 or (sys.version_info.major == 3 and sys.version_info.major < 8):
+if sys.version_info.major == 3 and sys.version_info.major < 8:
 
     _NOT_FOUND = object()
 

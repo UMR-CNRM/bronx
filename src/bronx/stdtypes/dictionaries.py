@@ -4,9 +4,7 @@
 Structure or dictionary like classes for miscellaneous usage.
 """
 
-import six
-
-from bronx.compat.moves import collections_abc
+import collections
 
 
 class Foo(object):
@@ -32,7 +30,7 @@ class Foo(object):
         return str(self.__dict__)
 
 
-class ReadOnlyDict(collections_abc.Mapping):
+class ReadOnlyDict(collections.abc.Mapping):
     """A type of read-only dictionary.
 
     Example::
@@ -92,7 +90,7 @@ class SpecialDict(dict):
     def __init__(self, *kargs, **kwargs):
         tmpdict = dict(*kargs, **kwargs)
         # Check the dictionnary keys. If necessary change them
-        for k, v in [(k, v) for k, v in six.iteritems(tmpdict) if k != self.remap(k)]:
+        for k, v in [(k, v) for k, v in tmpdict.items() if k != self.remap(k)]:
             del tmpdict[k]
             tmpdict[self.remap(k)] = v
         super(SpecialDict, self).__init__(tmpdict)

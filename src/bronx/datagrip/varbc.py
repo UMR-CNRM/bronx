@@ -6,14 +6,11 @@ The :class:`VarbcFile` should be used to read VarBC files (see its documentation
 below).
 """
 
-import six
-
 from collections import namedtuple, OrderedDict
 from contextlib import contextmanager
 import numpy as np
 import re
 
-from bronx.compat.moves import collections_abc
 from bronx.datagrip import varbcheaders
 
 
@@ -44,7 +41,7 @@ class _VarbcEntryNumpyDescriptor(_VarbcEntryTypeDescriptor):
     """Handle access to an object's data contained in NumPy arrays."""
 
     def __set__(self, obj, value):
-        if isinstance(value, six.string_types):
+        if isinstance(value, str):
             value = [self._objtype(st) for st in value.split()]
         setattr(obj, '_' + self._attr, np.array(value, dtype=self._objtype))
 
@@ -172,7 +169,7 @@ class _VarbcMatchList(object):
         mt.save_entry()
 
 
-class VarbcFile(collections_abc.Mapping):
+class VarbcFile(collection.abc.Mapping):
     """Class to handle a full VarBC file.
 
     It provides then two simple methods to access to elements :class:`ObsVarbcEntry`,
@@ -229,7 +226,7 @@ class VarbcFile(collections_abc.Mapping):
         If **entry** is an integer, this is equivalent to :meth:`getix`. If
         **entry** is a string, this is equivalent to :meth:`getkey`.
         """
-        if isinstance(item, six.string_types):
+        if isinstance(item, str):
             return self.getkey(item)
         elif isinstance(item, int):
             return self.getix(item)

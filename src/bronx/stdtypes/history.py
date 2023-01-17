@@ -4,8 +4,6 @@
 Some types to manage history of commands, actions, etc.
 """
 
-import six
-
 import collections
 import datetime
 import re
@@ -137,7 +135,7 @@ class PrivateHistory(object):
     def nice(self, item):
         """Try to build some nice string of the item."""
         if type(item) is list or type(item) is tuple:
-            niceitem = ' '.join([six.text_type(x) for x in item])
+            niceitem = ' '.join([str(x) for x in item])
         else:
             niceitem = item
         return niceitem

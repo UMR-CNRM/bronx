@@ -5,9 +5,7 @@ Various tools designed for interactive scripts.
 """
 
 import sys
-
-import six
-from bronx.compat.moves import collections_abc
+import collections
 
 #: No automatic export
 __all__ = []
@@ -53,8 +51,6 @@ def query_yes_no_quit(question, default="yes"):
     valid = {"yes": "yes", "y": "yes", "ye": "yes",
              "no": "no", "n": "no",
              "quit": "quit", "qui": "quit", "qu": "quit", "q": "quit"}
-    if six.PY2 and isinstance(default, str):
-        default = six.u(default)  # We always return an unicode string
     if default is None:
         prompt = " [y/n/q] "
     elif default == "yes":
@@ -68,7 +64,7 @@ def query_yes_no_quit(question, default="yes"):
 
     while 1:
         sys.stdout.write(question + prompt)
-        choice = six.moves.input().lower()
+        choice = raw_input().lower()
         if default is not None and choice == '':
             return default
         elif choice in valid:
@@ -121,15 +117,15 @@ def print_tablelike(fmt, *args, **kwargs):
     datasize = None
     newargs = list()
     for i, arg in enumerate(args):
-        assert issubclass(type(arg), collections_abc.Iterable), \
+        assert issubclass(type(arg), collections.abc.Iterable), \
             "Each of the positional arguments must be iterable."
-        assert issubclass(type(arg), collections_abc.Sized), \
+        assert issubclass(type(arg), collections.abc.Sized), \
             "Each of the positional arguments must have a query-able size."
         if datasize is None:
             datasize = len(arg)
         else:
             assert len(arg) == datasize, "Size inconsistency between arguments"
-        if all([isinstance(s, six.string_types) for s in arg]) and (not plast or i < len(args) - 1):
+        if all([isinstance(s, str) for s in arg]) and (not plast or i < len(args) - 1):
             maxlen = max([len(s) for s in arg])
             newargs.append([("{:<" + str(maxlen) + "s}").format(s) for s in arg])
         else:

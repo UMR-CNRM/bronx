@@ -3,9 +3,6 @@
 """
 Useful decorators.
 """
-
-import six
-
 import time
 
 
@@ -73,7 +70,7 @@ def unicode_filter(func):
     def unicode_func(*args, **kw):
         out = func(*args, **kw)
         if isinstance(out, str):
-            out = six.text_type(out)
+            out = str(out)
         return out
     return unicode_func
 

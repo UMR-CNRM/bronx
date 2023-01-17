@@ -3,7 +3,7 @@
 """
 Compatibility for modules or attributes that move or change their name across versions of Python
 """
-
+import collections
 import abc
 import re
 import sys
@@ -18,15 +18,14 @@ def _require_version(major, minor=0):
 
 
 # ABCs are moved from "collections" to "collections.abc" in 3.8
-six.add_move(six.MovedModule("collections_abc", "collections", "collections.abc"))
-collections_abc = six.moves.collections_abc
+six.add_move(six.MovedModule("collections.abc", "collections", "collections.abc"))
+collections.abc = six.moves.collections_abc
 collections_abc.__doc__ = "Compatibility module for abstract classes that move from 'collections' " \
                           "in Python 2.7 to 'collections.abc' in Python 3.x (will break in 3.8)"
 
 
 # re._pattern_type is removed in python3.7
-@six.add_metaclass(abc.ABCMeta)
-class re_Pattern(object):
+class re_Pattern(object, metaclass=abc.ABCMeta):
     """Mimics Python3.7 re.Pattern behaviour."""
 
     def __new__(self, *args, **kwargs):

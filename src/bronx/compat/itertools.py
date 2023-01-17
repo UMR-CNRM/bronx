@@ -6,11 +6,10 @@ Compatibility for some of the features of the itertools modules.
 The pairwise function was introduced with Python3.10, we provide here a close approximation.
 The real thing is used from 3.10 and on.
 """
+import sys
 import itertools
 
-import six
-
-if six.PY2 or (six.sys.version_info.major == 3 and six.sys.version_info.major < 10):
+if sys.version_info.major == 3 and sys.version_info.major < 10:
 
     def pairwise(iterable):
         """Return successive overlapping pairs taken from the input iterable.

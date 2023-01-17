@@ -8,7 +8,6 @@ Changes could be creation, deletion, modification.
 
 import collections
 
-from bronx.compat.moves import collections_abc
 from bronx.fancies.dump import OneLineTxtDumper
 
 
@@ -74,8 +73,8 @@ class Tracker(object):
         self._sectionlabel = sectionlabel
         for args in (before, after, deleted, created, updated, unchanged):
             if args is not None:
-                if not (isinstance(args, collections_abc.Iterable) and
-                        all([isinstance(item, collections_abc.Hashable) for item in args])):
+                if not (isinstance(args, collections.abc.Iterable) and
+                        all([isinstance(item, collections.abc.Hashable) for item in args])):
                     raise ValueError("Whenever provided, arguments must consists of hashable items.")
         if before is not None and after is not None:
             before = frozenset(before)
@@ -220,10 +219,10 @@ class MappingTracker(Tracker):
     """
 
     def __init__(self, before, after):
-        if not isinstance(before, collections_abc.Mapping):
+        if not isinstance(before, collections.abc.Mapping):
             raise ValueError('The before argument must be some kind of mapping (got {!s}).'
                              .format(type(before)))
-        if not isinstance(after, collections_abc.Mapping):
+        if not isinstance(after, collections.abc.Mapping):
             raise ValueError('The after argument must be some kind of mapping (got {!s}).'
                              .format(type(before)))
         super(MappingTracker, self).__init__(before, after, sectionlabel='Item')
@@ -305,8 +304,8 @@ class RecursiveMappingTracker(MappingTracker):
             k_after = after[k_changed]
             if isinstance(k_before, set) and isinstance(k_after, set):
                 self._updated_data[k_changed] = Tracker(k_before, k_after, sectionlabel="Set's item")
-            elif (isinstance(k_before, collections_abc.Mapping) and
-                  isinstance(k_after, collections_abc.Mapping)):
+            elif (isinstance(k_before, collections.abc.Mapping) and
+                  isinstance(k_after, collections.abc.Mapping)):
                 self._updated_data[k_changed] = RecursiveMappingTracker(k_before, k_after)
             else:
                 self._updated_data[k_changed] = SimpleDifference(k_before, k_after)

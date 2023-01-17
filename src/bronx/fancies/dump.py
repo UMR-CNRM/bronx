@@ -99,8 +99,6 @@ Example::
 
 """
 
-import six
-
 import re
 from xml.dom import minidom
 
@@ -112,7 +110,7 @@ __all__ = []
 
 def _DEBUG(msg, obj=None, level=None):
     """Fake method for debug purpose (then should provide a print statement)."""
-    # print(msg, six.text_type(obj))
+    # print(msg, str(obj))
     pass
 
 
@@ -166,7 +164,7 @@ class _AbstractDumper(getbytag.GetByTag):
                        self._lazzy_dump)(obj, level + 1, nextline)
 
     def _unknown_obj_overview(self, obj):
-        strobj = six.text_type(obj)
+        strobj = str(obj)
         reprobj = repr(obj)
         if '\n' not in strobj and strobj != reprobj:
             return strobj
@@ -234,7 +232,7 @@ class _AbstractDumper(getbytag.GetByTag):
                 _DEBUG('builtin')
                 self.seen[this_id] = self._dump_builtin(obj, level, nextline)
             else:
-                _DEBUG('class ' + six.text_type(obj))
+                _DEBUG('class ' + str(obj))
                 self.seen[this_id] = self._dump_class(obj, level, nextline)
             return self.seen[this_id]
 
@@ -269,7 +267,7 @@ class JsonableDumper(_AbstractDumper):
     def dump_dict(self, obj, level=0, nextline=True):
         return {self._recursive_dump(k, level, nextline):
                 self._recursive_dump(v, level + 1, nextline)
-                for k, v in six.iteritems(obj)}
+                for k, v in obj.items()}
 
     def dump_list(self, obj, level=0, nextline=True):
         return [self._recursive_dump(v, level + 1, nextline) for v in obj]
@@ -326,15 +324,15 @@ class XmlDomDumper(JsonableDumper):
             if not isinstance(v, list):
                 if myname in self._named_nodes:
                     xnode = xdoc.createElement(myname)
-                    xnode.setAttribute('name', six.text_type(k))
+                    xnode.setAttribute('name', str(k))
                 else:
-                    if six.text_type(k) in self._named_nodes:
+                    if str(k) in self._named_nodes:
                         xnode = xroot
                     else:
-                        xnode = xdoc.createElement(six.text_type(k))
+                        xnode = xdoc.createElement(str(k))
             else:
                 xnode = xroot
-            self._xdump(xdoc, xnode, v, myname=six.text_type(k))
+            self._xdump(xdoc, xnode, v, myname=str(k))
             if xnode is not xroot:
                 xroot.appendChild(xnode)
 
@@ -344,7 +342,7 @@ class XmlDomDumper(JsonableDumper):
                 xnode = xdoc.createElement('generic_item')
             else:
                 xnode = xdoc.createElement(myname)
-            self._xdump(xdoc, xnode, v, myname=six.text_type(v), topelt=True)
+            self._xdump(xdoc, xnode, v, myname=str(v), topelt=True)
             xroot.appendChild(xnode)
 
     def _xdump(self, xdoc, xroot, obj, myname, topelt=False):
@@ -354,7 +352,7 @@ class XmlDomDumper(JsonableDumper):
             self._xdump_dict(xdoc, xroot, obj, myname)
         else:
             # Generic case
-            xroot.appendChild(xdoc.createTextNode(six.text_type(obj)))
+            xroot.appendChild(xdoc.createTextNode(str(obj)))
 
     def dump(self, obj, root, rootattr=None, level=0, nextline=True):
         """Call this method to dump ``obj`` (or at least try to...).
@@ -370,7 +368,7 @@ class XmlDomDumper(JsonableDumper):
         xdoc = minidom.Document()
         xroot = xdoc.createElement(root)
         if rootattr is not None and isinstance(rootattr, dict):
-            for k, v in six.iteritems(rootattr):
+            for k, v in rootattr.items():
                 xroot.setAttribute(k, v)
         self._xdump(xdoc, xroot, parent_dump, myname=root, topelt=True)
         xdoc.appendChild(xroot)
@@ -470,7 +468,7 @@ class TxtDumper(_AbstractDumper):
 
     def dump_bool(self, obj, level=0, nextline=True):
         _DEBUG('dump_bool', obj)
-        return "%s%s" % (self._indent(level, self.break_bool), six.text_type(obj))
+        return "%s%s" % (self._indent(level, self.break_bool), str(obj))
 
     def dump_tuple(self, obj, level=0, nextline=True):
         _DEBUG('dump_tuple', obj)
@@ -538,7 +536,7 @@ class TxtDumper(_AbstractDumper):
             )
         else:
             items = ["%s%s = %s%s," % (self._indent(level + 1, self.break_before_dict_key),
-                                       six.text_type(k),
+                                       str(k),
                                        self._indent(level + 2, self.break_before_dict_value),
                                        self._recursive_dump(v, level + 1))
                      for k, v in sorted(obj.items())]
@@ -610,9 +608,9 @@ def lightdump(obj, break_before_dict_key=True, break_before_dict_value=False):
     items = [
         "%s%s = %s%s," % (
             d._indent(0, break_before_dict_key),
-            six.text_type(k),
+            str(k),
             d._indent(1, break_before_dict_value),
-            six.text_type(v)
+            str(v)
         ) for k, v in sorted(obj.items(), key=lambda x: x[0])
     ]
     return ''.join(items)

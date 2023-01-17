@@ -22,9 +22,6 @@ import io
 import re
 from decimal import Decimal
 
-import six
-
-from bronx.compat.moves import collections_abc
 from bronx.syntax.decorators import secure_getattr
 from bronx.syntax.externalcode import ExternalCodeImportChecker
 
@@ -420,12 +417,12 @@ class LiteralParser(object):
     @staticmethod
     def encode_integer(value):
         """Returns the string form of the integer ``value``."""
-        return six.text_type(value)
+        return str(value)
 
     @staticmethod
     def encode_boz(value):
         """Returns the string form of the BOZ ``value``."""
-        return six.text_type(value)
+        return str(value)
 
     @staticmethod
     def encode_real(value, fmt='{0:.15G}'):
@@ -484,13 +481,13 @@ class LiteralParser(object):
             return self.encode_complex(value, fmt='{0:.7G}')
         elif isinstance(value, _C128_TYPES):
             return self.encode_complex(value, fmt='{0:.15G}')
-        elif isinstance(value, six.string_types):
+        elif isinstance(value, str):
             return self.encode_character(value)
         else:
             raise ValueError("Type %s cannot be FORTRAN encoded" % type(value))
 
 
-class NamelistBlock(collections_abc.MutableMapping):
+class NamelistBlock(collections.abc.MutableMapping):
     """
     This class represents a FORTRAN namelist block.
 
@@ -619,7 +616,7 @@ class NamelistBlock(collections_abc.MutableMapping):
             value = [value, ]
         # Automatically add free macros to the macro list
         for v in [self._RE_FREEMACRO.match(v) for v in value
-                  if isinstance(v, six.string_types)]:
+                  if isinstance(v, str)]:
             if v and v.group('NAME') not in self.macros():
                 self.addmacro(v.group('NAME'))
         # Process the given value...
@@ -688,10 +685,7 @@ class NamelistBlock(collections_abc.MutableMapping):
 
     def keys(self):
         """Returns the ordered variable names of the namelist block."""
-        if six.PY3:
-            return self.__iter__()
-        else:
-            return self._keys[:]
+        return self.__iter__()
 
     iterkeys = __iter__
 
@@ -712,10 +706,7 @@ class NamelistBlock(collections_abc.MutableMapping):
 
     def items(self):
         """Iterate over the namelist block's variables."""
-        if six.PY3:
-            return self.iteritems()
-        else:
-            return [(k, self._pool[k]) for k in self._keys]
+        return self.iteritems()
 
     def iteritems(self):
         """Iterate over the namelist block's variables."""
@@ -732,7 +723,7 @@ class NamelistBlock(collections_abc.MutableMapping):
 
     def update(self, dico):
         """Updates the pool of keys, and keeps as much as possible the initial order."""
-        for var, value in six.iteritems(dico):
+        for var, value in dico.tems():
             self.setvar(var, value)
 
     def clear(self, rmkeys=None):
@@ -776,7 +767,7 @@ class NamelistBlock(collections_abc.MutableMapping):
         """Find whether *item* is a macro or not."""
         if item in self._declared_subs:
             return item
-        elif isinstance(item, six.string_types):
+        elif isinstance(item, str):
             fm_match = self._RE_FREEMACRO.match(item)
             if fm_match:
                 return fm_match.group('NAME') if fm_match else None
@@ -784,7 +775,7 @@ class NamelistBlock(collections_abc.MutableMapping):
             return None
 
     def _xdetect_macroname(self, item):
-        if isinstance(item, six.string_types):
+        if isinstance(item, str):
             itemli = item[:]
             # Ignore quote and double-quote when matching macro's name
             if ((itemli.startswith("'") and itemli.endswith("'")) or
@@ -905,7 +896,7 @@ class NamelistBlock(collections_abc.MutableMapping):
             self._declared_subs.update(delta._declared_subs)
 
 
-class NamelistSet(collections_abc.MutableMapping):
+class NamelistSet(collections.abc.MutableMapping):
     """A set of namelist blocks (see :class:`NamelistBlock`).
 
     This class defines all the methods of a usual Python's dictionary. The
@@ -1351,7 +1342,7 @@ class NamelistParser(object):
 
         Returns a :class:`NamelistSet` object.
         """
-        if isinstance(obj, six.string_types):
+        if isinstance(obj, str):
             if not self.block.search(obj):
                 obj = obj.strip()
                 with io.open(obj, 'r') as iod:

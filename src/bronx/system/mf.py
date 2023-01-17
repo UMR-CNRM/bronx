@@ -4,7 +4,7 @@
 Meteo France specific system related tools.
 """
 
-from six import BytesIO
+from io import BytesIO
 
 import ftplib
 import netrc

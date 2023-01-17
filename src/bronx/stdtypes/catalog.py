@@ -3,9 +3,6 @@
 """
 A simple class for managing a collection of *items*.
 """
-
-import six
-
 from weakref import WeakSet
 
 from bronx.fancies import loggers
@@ -78,7 +75,7 @@ class Catalog(object):
         In python2, a list that contains a copy of the catalog items. In python3;
         an iterator over catalog items.
         """
-        return list(self) if six.PY2 else iter(self)
+        return iter(self)
 
     def __iter__(self):
         """Iterate over catalog items"""

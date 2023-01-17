@@ -8,8 +8,6 @@ This module uses code from pylibtiff (https://pypi.python.org/pypi/libtiff,
 https://code.google.com/p/pylibtiff or https://github.com/hmeine/pylibtiff)
 """
 
-import six
-
 import io
 import mmap
 import numpy
@@ -215,7 +213,7 @@ class TiffFile(object):
         """
         Returns the stringio representeing the buffer.
         """
-        return six.StringIO(self.get_buffer())
+        return io.StringIO(self.get_buffer())
 
     def get_PILImage(self):
         """
@@ -240,7 +238,7 @@ class TiffFile(object):
             dtype = typ
             size = typ().itemsize
         else:
-            if isinstance(typ, six.string_types):
+            if isinstance(typ, str):
                 ntyp = typ
                 typ = TiffFile._name2type.get(typ)
             else:

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import six
 
 import unittest
 
@@ -42,14 +41,6 @@ class TestExternalCodeImport(unittest.TestCase):
         with self.assertRaises(ExternalCodeUnavailableError):
             test_func1()
 
-        if six.PY2:
-            # Old-Style clases doesn't exists anymore with Python3
-            with self.assertRaises(TypeError):
-                @ec_checker.disabled_if_unavailable
-                class test_cls1():
-
-                    def toto(self):
-                        return True
 
         @ec_checker.disabled_if_unavailable
         class test_cls2(object):
