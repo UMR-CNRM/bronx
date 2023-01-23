@@ -214,7 +214,7 @@ class DefaultTemplate(object):
             n_subs.update(e_subs)
             # Let's expand !
             if all([v is None for v in ivars_p]):
-                # Fist one
+                # First one
                 outlist.append(self._recursive_render(copy.copy(lbodyfirst), n_subs))
             elif all([v is None for v in ivars_n]):
                 # Last one
