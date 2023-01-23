@@ -157,12 +157,9 @@ On Belenos (2x AMD Rome socket with 64 cores each)::
 
 """
 
-import six
-
 import abc
 from collections import namedtuple, defaultdict
 from functools import partial
-import io
 import locale
 import re
 
@@ -184,8 +181,7 @@ class CpusToolUnavailableError(Exception):
     pass
 
 
-@six.add_metaclass(abc.ABCMeta)
-class CpusInfo(object):
+class CpusInfo(object, metaclass = abc.ABCMeta):
     """Provide various informations about CPUs (abstract class)."""
 
     def __init__(self):
@@ -350,7 +346,7 @@ class LinuxCpusInfo(CpusInfo):
             self._cpus = dict()
             cpu_n = None
             cpu = None
-            with io.open(self._INFOFILE, 'r') as infofd:
+            with open(self._INFOFILE, 'r') as infofd:
                 for line in infofd:
                     # Detect the begining of a new CPU description
                     cpumatch = self._CPU_RE.match(line)

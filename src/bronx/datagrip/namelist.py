@@ -18,7 +18,6 @@ Inital author: Joris Picot (2010-12-08 / CERFACS)
 """
 import collections
 import copy
-import io
 import re
 from decimal import Decimal
 
@@ -1345,7 +1344,7 @@ class NamelistParser(object):
         if isinstance(obj, str):
             if not self.block.search(obj):
                 obj = obj.strip()
-                with io.open(obj, 'r') as iod:
+                with open(obj, 'r') as iod:
                     obj = iod.read()
             return self._namelist_parse(obj)
 

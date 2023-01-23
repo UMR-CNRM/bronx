@@ -7,7 +7,6 @@ See the :class:`DataStore` class docstring for an example.
 """
 import collections
 import functools
-import io
 import pickle
 
 #: No automatic export
@@ -264,7 +263,7 @@ class DataStore(object):
             at the object creation time is used).
         """
         thefile = dumpfile or self._pickle_dumpfile
-        with io.open(thefile, 'wb') as pfh:
+        with open(thefile, 'wb') as pfh:
             pickle.dump((self._store, self._lock), pfh,
                         protocol=self._PICKLE_PROTOCOL)
 
@@ -276,7 +275,7 @@ class DataStore(object):
         """
         # Get the pickle file contents
         thefile = dumpfile or self._pickle_dumpfile
-        with io.open(thefile, 'rb') as pfh:
+        with open(thefile, 'rb') as pfh:
             unpickled = pickle.load(pfh)
         # Build the new store dictionary
         newstore = dict()

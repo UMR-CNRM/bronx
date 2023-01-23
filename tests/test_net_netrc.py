@@ -7,7 +7,6 @@
 # LFM: test of test.support removed
 import bronx.net.netrc as netrc
 import contextlib
-import io
 import os
 import unittest
 import shutil
@@ -138,7 +137,7 @@ class NetrcTestCase(unittest.TestCase):
         d = tempfile.mkdtemp(prefix='vortex_netrc_test_')
         try:
             fn = os.path.join(d, '.netrc')
-            with io.open(fn, 'wt') as f:
+            with open(fn, 'wt') as f:
                 f.write("""\
                     machine foo.domain.com login bar password pass
                     default login foo password pass
