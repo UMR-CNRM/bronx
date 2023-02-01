@@ -169,7 +169,7 @@ class _VarbcMatchList(object):
         mt.save_entry()
 
 
-class VarbcFile(collection.abc.Mapping):
+class VarbcFile(collections.abc.Mapping):
     """Class to handle a full VarBC file.
 
     It provides then two simple methods to access to elements :class:`ObsVarbcEntry`,

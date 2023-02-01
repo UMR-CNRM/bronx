@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """Utility class to read the headers of a VarBC files."""
-import collection
+import collections
 import re
 
 from bronx.stdtypes.date import Date

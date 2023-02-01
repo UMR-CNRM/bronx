@@ -9,8 +9,6 @@ At the present time, the only concrete implementation is
 the :class:`LinuxMemInfo`.
 """
 
-import six
-
 import abc
 import os
 import resource
@@ -40,8 +38,7 @@ def convert_bytes_in_unit(mem_b, unit):
     return mem_b / ((1024 if 'i' in unit else 1000) ** unit_power[unit])
 
 
-@six.add_metaclass(abc.ABCMeta)
-class MemInfo(object):
+class MemInfo(object, metaclass=abc.ABCMeta):
     """Provide various informations about Memory (abstract class)."""
 
     @abc.abstractmethod
