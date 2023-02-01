@@ -7,6 +7,7 @@ import hashlib
 import os
 from io import BytesIO
 
+
 class HashAdapter(object):
     """
     This class provides convenient methods to generate and check hash sums on
