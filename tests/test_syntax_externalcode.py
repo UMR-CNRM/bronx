@@ -41,7 +41,6 @@ class TestExternalCodeImport(unittest.TestCase):
         with self.assertRaises(ExternalCodeUnavailableError):
             test_func1()
 
-
         @ec_checker.disabled_if_unavailable
         class test_cls2(object):
 
