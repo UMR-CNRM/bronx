@@ -181,7 +181,7 @@ class CpusToolUnavailableError(Exception):
     pass
 
 
-class CpusInfo(object, metaclass = abc.ABCMeta):
+class CpusInfo(object, metaclass=abc.ABCMeta):
     """Provide various informations about CPUs (abstract class)."""
 
     def __init__(self):

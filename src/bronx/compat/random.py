@@ -12,6 +12,7 @@ the bare :class:`random.Random` class.
 import random as _barerandom
 from math import ceil as _ceil, log as _log
 
+
 class Random(_barerandom.Random):
     """The Python3 version of the Python's 2.7 Random class.
 
