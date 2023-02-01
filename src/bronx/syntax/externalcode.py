@@ -56,8 +56,7 @@ from bronx.fancies.display import join_list_in_proper_english
 
 logger = loggers.getLogger(__name__)
 
-if (sys.version_info.major == 2 or
-        (sys.version_info.major == 3 and sys.version_info.minor < 10)):
+if (sys.version_info.minor < 10):
     from distutils.version import LooseVersion as version_cb
 else:
     # distutils is now deprecated

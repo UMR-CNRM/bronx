@@ -8,8 +8,6 @@ import abc
 import re
 import sys
 
-import six
-
 
 def _require_version(major, minor=0):
     """Check if the running python version is at least Python **major**.**minor**."""
@@ -18,10 +16,8 @@ def _require_version(major, minor=0):
 
 
 # ABCs are moved from "collections" to "collections.abc" in 3.8
-six.add_move(six.MovedModule("collections.abc", "collections", "collections.abc"))
-collections.abc = six.moves.collections_abc
-collections_abc.__doc__ = "Compatibility module for abstract classes that move from 'collections' " \
-                          "in Python 2.7 to 'collections.abc' in Python 3.x (will break in 3.8)"
+collections_abc = collections.abc
+collections_abc.__doc__ = "retrocompatibility artifact when dealing with python 2 and 3 compatibility"
 
 
 # re._pattern_type is removed in python3.7

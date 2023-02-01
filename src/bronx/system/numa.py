@@ -82,7 +82,8 @@ On Belenos (2x AMD Rome socket with 64 cores each)::
 """
 
 import abc
-from collections import defaultdict, deque, abc
+from collections import defaultdict, deque
+from collections.abc import Mapping
 import copy
 
 from ctypes import CDLL, byref, c_longlong
@@ -281,7 +282,7 @@ class _MetaCpuIdDispenser(object):
         raise StopIteration()
 
 
-class NumaNodesInfo(collections.abc.Mapping, metaclass=abc.ABCMeta):
+class NumaNodesInfo(Mapping, metaclass=abc.ABCMeta):
     """Hold information on the system's NUMA nodes.
 
     Abstract class.

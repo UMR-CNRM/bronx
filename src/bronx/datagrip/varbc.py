@@ -6,7 +6,7 @@ The :class:`VarbcFile` should be used to read VarBC files (see its documentation
 below).
 """
 
-from collections import namedtuple, OrderedDict
+from collections import namedtuple, OrderedDict, abc
 from contextlib import contextmanager
 import numpy as np
 import re
@@ -169,7 +169,7 @@ class _VarbcMatchList(object):
         mt.save_entry()
 
 
-class VarbcFile(collections.abc.Mapping):
+class VarbcFile(abc.Mapping):
     """Class to handle a full VarBC file.
 
     It provides then two simple methods to access to elements :class:`ObsVarbcEntry`,

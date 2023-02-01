@@ -95,14 +95,13 @@ class SafetyCheckNodeVisitor(ast.NodeVisitor):
     ])
 
     # Some new AST nodes came up with Python 3
-    if sys.version_info.major >= 3:
-        _GENERIC_WHITELIST.update([ast.Bytes, ast.Starred, ])
-        if sys.version_info.major > 3 or sys.version_info.minor >= 4:
-            _GENERIC_WHITELIST.add(ast.NameConstant)
-        if sys.version_info.major > 3 or sys.version_info.minor >= 5:
-            _GENERIC_WHITELIST.add(ast.MatMult)
-        if sys.version_info.major > 3 or sys.version_info.minor >= 6:
-            _GENERIC_WHITELIST.update([ast.FormattedValue, ast.JoinedStr, ])
+    _GENERIC_WHITELIST.update([ast.Bytes, ast.Starred, ])
+    if sys.version_info.minor >= 4:
+        _GENERIC_WHITELIST.add(ast.NameConstant)
+    if sys.version_info.minor >= 5:
+        _GENERIC_WHITELIST.add(ast.MatMult)
+    if sys.version_info.minor >= 6:
+        _GENERIC_WHITELIST.update([ast.FormattedValue, ast.JoinedStr, ])
 
     _GENERIC_WHITELIST = tuple(_GENERIC_WHITELIST)
 
@@ -124,8 +123,7 @@ class SafetyCheckNodeVisitor(ast.NodeVisitor):
         super(SafetyCheckNodeVisitor, self).__init__()
         self._varnames = varnames
         self._allowednames = set(varnames)
-        if not (sys.version_info.major > 3 or
-                (sys.version_info.major == 3 and sys.version_info.minor >= 4)):
+        if not (sys.version_info.minor >= 4):
             # In Python >= 3.4, this is described by the ast.NameConstant node
             self._allowednames.update(['False', 'True', 'None'])
 
@@ -233,21 +231,14 @@ class SafetyCheckNodeVisitor(ast.NodeVisitor):
 
     def visit_Lambda(self, node):
         """Check :class:`ast.Lambda` objects."""
-        if sys.version_info.major >= 3:
-            argsbase = node.args.args + node.args.kwonlyargs
-            defaultbase = node.args.defaults + node.args.kw_defaults
-        else:
-            argsbase = list(node.args.args)
-            defaultbase = list(node.args.defaults)
+        argsbase = node.args.args + node.args.kwonlyargs
+        defaultbase = node.args.defaults + node.args.kw_defaults
         # Find out the argument names and defaults
         if node.args.vararg is not None:
             argsbase.append(node.args.vararg)
         if node.args.kwarg is not None:
             argsbase.append(node.args.kwarg)
-        if sys.version_info.major >= 3:
-            controlvariables = set([a.arg for a in argsbase])  # arg objects
-        else:
-            controlvariables = set([a.id for a in argsbase])  # Name objects
+        controlvariables = set([a.arg for a in argsbase])  # arg objects
         for d in defaultbase:
             if d is not None:
                 self.visit(d)
