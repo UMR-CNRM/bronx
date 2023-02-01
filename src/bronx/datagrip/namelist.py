@@ -722,7 +722,7 @@ class NamelistBlock(collections.abc.MutableMapping):
 
     def update(self, dico):
         """Updates the pool of keys, and keeps as much as possible the initial order."""
-        for var, value in dico.tems():
+        for var, value in dico.items():
             self.setvar(var, value)
 
     def clear(self, rmkeys=None):

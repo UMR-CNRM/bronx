@@ -30,7 +30,7 @@ def printstatus(step, end, refresh_freq=1):
 
 
 def query_yes_no_quit(question, default="yes"):
-    """Ask a yes/no/quit question via raw_input() and return their answer.
+    """Ask a yes/no/quit question via input() and return their answer.
 
     :param str question: String that is presented to the user.
     :param str default: The presumed answer if the user just hits <Enter>.
@@ -64,7 +64,7 @@ def query_yes_no_quit(question, default="yes"):
 
     while 1:
         sys.stdout.write(question + prompt)
-        choice = raw_input().lower()
+        choice = input().lower()
         if default is not None and choice == '':
             return default
         elif choice in valid:

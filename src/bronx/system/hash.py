@@ -5,7 +5,7 @@ Interface to the Python's :mod:`hashlib` module that generates hashes on files, 
 """
 import hashlib
 import os
-
+from io import BytesIO
 
 class HashAdapter(object):
     """
@@ -78,7 +78,7 @@ class HashAdapter(object):
 
         :param input_file: Path to a file or opened File-like object
         """
-        output = io.BytesIO()
+        output = BytesIO()
         output.write(self.file2hash(input_file).encode(encoding='utf-8'))
         output.seek(0)
         return output
