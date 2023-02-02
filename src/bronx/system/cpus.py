@@ -373,6 +373,7 @@ def get_affinity(pid=None):
         pid = 0
     return os.sched_getaffinity(pid)
 
+
 def set_affinity(cpus, pid=None):
     """Set the cpu affinity of a process."""
     if pid is None:
