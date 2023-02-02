@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Atmospheric physics related constants, functions or classes.
 """

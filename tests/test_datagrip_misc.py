@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import tempfile
 import os
 import unittest
@@ -30,8 +28,8 @@ class TestDictCSV(unittest.TestCase):
 
     def test_read_dict_in_CSV(self):
         self.assertEqual(read_dict_in_CSV(self.testfilename),
-                         ([{u'a': 1, u'b': u'ok'},
-                           {u'a': 2, u'c': u'why?', u'b': u'not ok'}],
+                         ([{'a': 1, 'b': 'ok'},
+                           {'a': 2, 'c': 'why?', 'b': 'not ok'}],
                           'main')
                          )
 

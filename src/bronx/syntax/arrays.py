@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Numpy's useful tools.
 """

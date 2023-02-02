@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 A templating system for nested dictionaries and lists.
 
@@ -22,10 +20,10 @@ class TemplateLoopRenderingError(TemplateRenderingError):
     """Any exception raised by the :class:`DefaultTemplate` class. during loop expansion"""
 
     def __init__(self, msg):
-        super(TemplateLoopRenderingError, self).__init__('loop rendering: {:s}'.format(msg))
+        super().__init__('loop rendering: {:s}'.format(msg))
 
 
-class DefaultTemplate(object):
+class DefaultTemplate:
     """Recursively walk into nested dictionaries and/or lists templates.
 
     This templating class provides two features:

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 A simplified key/value embedded-database.
 
@@ -13,7 +11,7 @@ import pickle
 __all__ = []
 
 
-class _DataStoreEntryKey(object):
+class _DataStoreEntryKey:
     """The key of any element stored in a DataStore class."""
 
     def __init__(self, kind, **kwargs):
@@ -63,8 +61,7 @@ class _DataStoreEntryKey(object):
 
     def __iter__(self):
         """Iterates through *extras*."""
-        for k, v in self._extras.items():
-            yield (k, v)
+        yield from self._extras.items()
 
     def __eq__(self, other):
         """Compare to keys."""
@@ -84,7 +81,7 @@ class _DataStoreEntryKey(object):
             raise AttributeError('Attribute not found')
 
 
-class DataStore(object):
+class DataStore:
     """An object that can store any pickable data. It acts like a small
     key/value database.
 
@@ -300,9 +297,7 @@ class DataStore(object):
 
     def __iter__(self):
         """Iterate over the DataStore's items."""
-        for k, v in self._store.items():
-            # Return copies of keys so that the _index WeakSet remain unperturbed
-            yield (k, v)
+        yield from self._store.items()
 
     def __len__(self):
         """The number of entries in the present DataStore."""

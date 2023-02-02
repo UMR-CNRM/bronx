@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from bronx.syntax.parsing import str2dict, StringDecoder, StringDecoderSubstError, \

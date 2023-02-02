@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Graphical tools (mostly related to matplotlib).
 """

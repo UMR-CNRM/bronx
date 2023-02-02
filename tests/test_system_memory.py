@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from bronx.system.memory import convert_bytes_in_unit

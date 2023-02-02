@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Parsing tools.
 """
@@ -39,7 +37,7 @@ class StringDecoderSubstError(RuntimeError):
     """
     def __init__(self, sub, msg):
         msg = 'Unable to substitute "{}". {}.'.format(sub, msg)
-        super(StringDecoderSubstError, self).__init__(msg)
+        super().__init__(msg)
 
 
 class StringDecoderRemapError(RuntimeError):
@@ -49,7 +47,7 @@ class StringDecoderRemapError(RuntimeError):
     """
     def __init__(self, rmap):
         msg = 'Re-mapping to "{}" is not implemented'.format(rmap)
-        super(StringDecoderRemapError, self).__init__(msg)
+        super().__init__(msg)
 
 
 class StringDecoderSyntaxError(ValueError):
@@ -59,10 +57,10 @@ class StringDecoderSyntaxError(ValueError):
     """
     def __init__(self, value, msg):
         msg = 'Unable to parse "{}". {}.'.format(value, msg)
-        super(StringDecoderSyntaxError, self).__init__(msg)
+        super().__init__(msg)
 
 
-class StringDecoder(object):
+class StringDecoder:
     """Convert a string into a proper Python's object.
 
     This generic decoder only supports list, dictionaries and conversion to basic
@@ -306,7 +304,7 @@ class StringDecoder(object):
             else:
                 l_value = self._litteral_cleaner(l_value)
             (l_u_subs, l_hashkey) = self._substitute_lookup(l_value,
-                                                            substitute_set | set([sub]))
+                                                            substitute_set | {sub})
             u_subs.update(l_u_subs)
             u_subs[sub] = l_value
             hashstack.append(l_hashkey)

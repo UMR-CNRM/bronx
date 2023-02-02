@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 This module is in charge of getting informations on Memory.
 
@@ -38,7 +36,7 @@ def convert_bytes_in_unit(mem_b, unit):
     return mem_b / ((1024 if 'i' in unit else 1000) ** unit_power[unit])
 
 
-class MemInfo(object, metaclass=abc.ABCMeta):
+class MemInfo(metaclass=abc.ABCMeta):
     """Provide various informations about Memory (abstract class)."""
 
     @abc.abstractmethod
@@ -71,7 +69,7 @@ class LinuxMemInfo(MemInfo):
 
     def __init__(self):
         # The RAM size in bytes
-        self._system_RAM = os.sysconf(str('SC_PAGE_SIZE')) * os.sysconf(str('SC_PHYS_PAGES'))
+        self._system_RAM = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
 
     def process_maxRSS(self, unit=DEFAULT_MEM_UNIT):
         """

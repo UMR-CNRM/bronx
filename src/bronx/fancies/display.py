@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Various tools designed for interactive scripts.
 """

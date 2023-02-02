@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 This module is in charge of getting informations on CPUs.
 
@@ -181,7 +179,7 @@ class CpusToolUnavailableError(Exception):
     pass
 
 
-class CpusInfo(object, metaclass=abc.ABCMeta):
+class CpusInfo(metaclass=abc.ABCMeta):
     """Provide various informations about CPUs (abstract class)."""
 
     def __init__(self):
@@ -216,7 +214,7 @@ class CpusInfo(object, metaclass=abc.ABCMeta):
     @property
     def nphysical_cores(self):
         """The total number of physical cores on this system."""
-        return len(set([(c.socket_id, c.core_id) for c in self.cpus.values()]))
+        return len({(c.socket_id, c.core_id) for c in self.cpus.values()})
 
     @property
     def nvirtual_cores(self):
@@ -231,16 +229,16 @@ class CpusInfo(object, metaclass=abc.ABCMeta):
     @property
     def nphysical_cores_per_socket(self):
         """The number of physical cores per socket."""
-        ncores = set([len(socket) for socket in self.cpus_hierarchy.values()])
+        ncores = {len(socket) for socket in self.cpus_hierarchy.values()}
         assert len(ncores) == 1
         return ncores.pop()
 
     @property
     def smt_threads(self):
         """The Simultaneous MultiThreading threads count."""
-        nsmt = set([len(core)
-                    for socket in self.cpus_hierarchy.values()
-                    for core in socket.values()])
+        nsmt = {len(core)
+                for socket in self.cpus_hierarchy.values()
+                for core in socket.values()}
         assert len(nsmt) == 1
         return nsmt.pop()
 
@@ -317,8 +315,7 @@ class CpusInfo(object, metaclass=abc.ABCMeta):
                     yield flatcores[isocket][i]
         # Impossible... switch back to blocksize = 1 (round-robin over socket)
         else:
-            for cpu in list(self.socketpacked_cpulist(bsize=1)):
-                yield cpu
+            yield from list(self.socketpacked_cpulist(bsize=1))
 
 
 class LinuxCpusInfo(CpusInfo):
@@ -334,7 +331,7 @@ class LinuxCpusInfo(CpusInfo):
         """Check the the /proc/cpuinfo file exists before going on."""
         if cls._INFOFILE_CHECK and not os.path.exists(cls._INFOFILE):
             raise CpusToolUnavailableError('The {:s} file was not found'.format(cls._INFOFILE))
-        return super(LinuxCpusInfo, cls).__new__(cls)
+        return super().__new__(cls)
 
     @property
     def cpus(self):
@@ -346,7 +343,7 @@ class LinuxCpusInfo(CpusInfo):
             self._cpus = dict()
             cpu_n = None
             cpu = None
-            with open(self._INFOFILE, 'r') as infofd:
+            with open(self._INFOFILE) as infofd:
                 for line in infofd:
                     # Detect the begining of a new CPU description
                     cpumatch = self._CPU_RE.match(line)

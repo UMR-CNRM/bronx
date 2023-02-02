@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 This module provides a few functions on top of the standard logging module in
 order to easily create new loggers (including root ones) and control their
@@ -287,7 +285,7 @@ class SlurpHandler(logging.Handler):
     """
 
     def __init__(self, records_stack):
-        super(SlurpHandler, self).__init__()
+        super().__init__()
         self._stack = records_stack
 
     def prepare(self, record):

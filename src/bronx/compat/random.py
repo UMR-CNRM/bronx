@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 The :class:`Random` class from this module will produce results that are
 identical to the Python2 version.

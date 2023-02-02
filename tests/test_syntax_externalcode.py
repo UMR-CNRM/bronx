@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import unittest
 
 from bronx.fancies import loggers
@@ -21,7 +19,7 @@ class TestExternalCodeImport(unittest.TestCase):
         self.assertTrue(test_func1())
 
         @ec_checker.disabled_if_unavailable
-        class test_cls1(object):
+        class test_cls1:
 
             def toto(self):
                 return True
@@ -42,7 +40,7 @@ class TestExternalCodeImport(unittest.TestCase):
             test_func1()
 
         @ec_checker.disabled_if_unavailable
-        class test_cls2(object):
+        class test_cls2:
 
             def toto(self):
                 return True
@@ -69,7 +67,7 @@ class TestExternalCodeImport(unittest.TestCase):
         self.assertTrue(test_func1())
 
         @ec_checker.disabled_if_unavailable(version='1.9.0')
-        class test_cls1(object):
+        class test_cls1:
 
             def toto(self):
                 return True

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Various tools related to languages.
 """
@@ -47,7 +45,7 @@ _EN_ABERRANT_PLURAL_MAP = {
 }
 
 
-class Pluralise(object):
+class Pluralise:
     """Given a singular word, returns the plural form.
 
     We try to preserve the case as much as possible

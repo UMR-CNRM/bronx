@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Utility class to read VarBC files.
 
 The :class:`VarbcFile` should be used to read VarBC files (see its documentation
@@ -18,7 +16,7 @@ from bronx.datagrip import varbcheaders
 __all__ = []
 
 
-class _VarbcEntryTypeDescriptor(object):
+class _VarbcEntryTypeDescriptor:
     """Handle to an object's data of a specific type."""
 
     def __init__(self, attr, objtype, doc='Undocumented footprint attribute'):
@@ -46,7 +44,7 @@ class _VarbcEntryNumpyDescriptor(_VarbcEntryTypeDescriptor):
         setattr(obj, '_' + self._attr, np.array(value, dtype=self._objtype))
 
 
-class VarbcEntry(object):
+class VarbcEntry:
     """One entry of a VarBC file.
 
     The comparison operator ``==`` is available between objects of this class.
@@ -109,7 +107,7 @@ class VarbcEntry(object):
 _VarbcMatchElement = namedtuple('_VarbcMatchElement', ('element', 'regex'))
 
 
-class _VarbcMatchTool(object):
+class _VarbcMatchTool:
     """Object that uses regular expressions to parse varbc entry."""
 
     def __init__(self, matches, stack):
@@ -152,7 +150,7 @@ class _VarbcMatchTool(object):
                 self._imatch = (self._imatch + 1) % len(self._matches)
 
 
-class _VarbcMatchList(object):
+class _VarbcMatchList:
     """Object that uses regular expressions to parse varbc entry."""
 
     def __init__(self, matches):
@@ -235,8 +233,7 @@ class VarbcFile(abc.Mapping):
 
     def keys(self):
         """Iterate over all the keys available in the VarBC file."""
-        for k in self._key2entry.keys():
-            yield k
+        yield from self._key2entry.keys()
 
     def __iter__(self):
         """Iterate over all the keys available in the VarBC file."""
@@ -244,13 +241,11 @@ class VarbcFile(abc.Mapping):
 
     def values(self):
         """Iterate over all the :class:`ObsVarbcEntry` objects read from file."""
-        for entry in self._datalist:
-            yield entry
+        yield from self._datalist
 
     def items(self):
         """Iterate over all the (key, entry) pairs available in the VarBC file."""
-        for k, e in self._key2entry.items():
-            yield (k, e)
+        yield from self._key2entry.items()
 
     def getix(self, ix):
         """Gives the **ix** th entry of the VarBC file

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Some types to manage history of commands, actions, etc.
 """
@@ -11,7 +9,7 @@ import re
 from bronx.patterns import getbytag
 
 
-class PrivateHistory(object):
+class PrivateHistory:
     r"""Multi-purpose history like object.
 
     Items added to an History object are recorded along with a number (starting
@@ -142,8 +140,7 @@ class PrivateHistory(object):
 
     def __iter__(self):
         """Iterate over history entries."""
-        for item in self._history:
-            yield item
+        yield from self._history
 
     def __len__(self):
         """The the amount of history entries currently retained in this object."""

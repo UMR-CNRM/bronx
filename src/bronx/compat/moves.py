@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Compatibility for modules or attributes that move or change their name across versions of Python
 """
@@ -21,7 +19,7 @@ collections_abc.__doc__ = "retrocompatibility artifact when dealing with python 
 
 
 # re._pattern_type is removed in python3.7
-class re_Pattern(object, metaclass=abc.ABCMeta):
+class re_Pattern(metaclass=abc.ABCMeta):
     """Mimics Python3.7 re.Pattern behaviour."""
 
     def __new__(self, *args, **kwargs):

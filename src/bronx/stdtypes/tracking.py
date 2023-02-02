@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Tools to handle changes in some context.
 
@@ -11,7 +9,7 @@ import collections
 from bronx.fancies.dump import OneLineTxtDumper
 
 
-class Tracker(object):
+class Tracker:
     """Handling of simple state status through ``deleted``, ``created`` or ``updated`` items.
 
     :param collections.abc.Iterable before: The reference list of items
@@ -94,7 +92,7 @@ class Tracker(object):
         self._set_updated(updated)
 
     def __str__(self):
-        return '{0:s} | deleted={1:d} created={2:d} updated={3:d} unchanged={4:d}>'.format(
+        return '{:s} | deleted={:d} created={:d} updated={:d} unchanged={:d}>'.format(
             repr(self).rstrip('>'),
             len(self.deleted), len(self.created), len(self.updated), len(self.unchanged)
         )
@@ -155,8 +153,7 @@ class Tracker(object):
         return item in self.deleted or item in self.created or item in self.updated or item in self.unchanged
 
     def __iter__(self):
-        for item in self.deleted | self.created | self.updated | self.unchanged:
-            yield item
+        yield from self.deleted | self.created | self.updated | self.unchanged
 
     def __len__(self):
         return len(self.deleted | self.created | self.updated)
@@ -170,9 +167,9 @@ class Tracker(object):
         for section in args:
             sectionset = getattr(self, section)
             if with_empty or sectionset:
-                result.append('{0:s} {1:s}: {2:s}'.format(self._sectionlabel,
-                                                          section,
-                                                          ', '.join([str(x) for x in sectionset])))
+                result.append('{:s} {:s}: {:s}'.format(self._sectionlabel,
+                                                       section,
+                                                       ', '.join([str(x) for x in sectionset])))
 
         return '\n'.join(result)
 
@@ -225,8 +222,8 @@ class MappingTracker(Tracker):
         if not isinstance(after, collections.abc.Mapping):
             raise ValueError('The after argument must be some kind of mapping (got {!s}).'
                              .format(type(before)))
-        super(MappingTracker, self).__init__(before, after, sectionlabel='Item')
-        super(MappingTracker, self)._set_updated([k for k in self.unchanged if after[k] != before[k]])
+        super().__init__(before, after, sectionlabel='Item')
+        super()._set_updated([k for k in self.unchanged if after[k] != before[k]])
 
     deleted = property(Tracker._get_deleted, None, None, "The set of deleted items.")
 
@@ -294,7 +291,7 @@ class RecursiveMappingTracker(MappingTracker):
     _dump_tr = dict(deleted='-', created='+', updated='?', unchanged='=')
 
     def __init__(self, before, after):
-        super(RecursiveMappingTracker, self).__init__(before, after)
+        super().__init__(before, after)
         self._created_data = {k: after[k] for k in self.created}
         self._deleted_data = {k: before[k] for k in self.deleted}
         self._unchanged_data = {k: after[k] for k in self.unchanged}
@@ -346,7 +343,7 @@ class RecursiveMappingTracker(MappingTracker):
                 if section == 'updated':
                     for k, v in sorted(sectiondata.items()):
                         if isinstance(v, SimpleDifference):
-                            result.append('{0:s} {1:s}: before={2:s} after={3:s}'.format(
+                            result.append('{:s} {:s}: before={:s} after={:s}'.format(
                                 self._dump_tr.get(section, ' '),
                                 k,
                                 self._default_dumper.dump(v.before),
@@ -355,12 +352,12 @@ class RecursiveMappingTracker(MappingTracker):
                         else:
                             xresult = v.dump_str('deleted', 'created', 'updated', with_empty=False)
                             xresult = '\n'.join([self._level_indent + line for line in xresult.split('\n')])
-                            result.append('{0:s} {1:s}:\n{2:s}'.format(
+                            result.append('{:s} {:s}:\n{:s}'.format(
                                 self._dump_tr.get(section, ' '), k, xresult
                             ))
                 else:
                     for k, v in sorted(sectiondata.items()):
-                        result.append('{0:s} {1:s}: {2:s}'.format(
+                        result.append('{:s} {:s}: {:s}'.format(
                             self._dump_tr.get(section, ' '), k, self._default_dumper.dump(v)
                         ))
         return '\n'.join(result)
@@ -374,7 +371,7 @@ class RecursiveMappingTracker(MappingTracker):
 
     def dump(self, *args):
         """Produce a simple dump report."""
-        super(RecursiveMappingTracker, self).dump(*args)
+        super().dump(*args)
         self._default_dumper.reset()
 
 

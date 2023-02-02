@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Various tools to crawl the file system in order to find some config files
 

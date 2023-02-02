@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Meteo France specific system related tools.
 """
@@ -53,7 +51,7 @@ def prestage(resource_paths,
         (_login, _, _passwd) = netrc.netrc().authenticators(archive_machine)
     except TypeError:
         if netrc.netrc().authenticators(archive_machine) is None:
-            raise IOError("host " + archive_machine + " is unknown in .netrc")
+            raise OSError("host " + archive_machine + " is unknown in .netrc")
         else:
             raise
     ftp = ftplib.FTP(archive_machine)
