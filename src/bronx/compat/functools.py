@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Compatibility for some of the features of the functools modules.
 
@@ -16,7 +14,7 @@ if sys.version_info.major == 3 and sys.version_info.major < 8:
 
     _NOT_FOUND = object()
 
-    class cached_property(object):
+    class cached_property:
         """Call the function only once and cache its result."""
 
         def __init__(self, func):

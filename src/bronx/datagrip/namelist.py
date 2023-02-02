@@ -1,5 +1,3 @@
-#  -*- coding: utf-8 -*-
-
 """
 This module contains:
 
@@ -157,7 +155,7 @@ _C64_TYPES = tuple(_C64_TYPES)
 _C128_TYPES = tuple(_C128_TYPES)
 
 
-class LiteralParser(object):
+class LiteralParser:
     """
     Object in charge of parsing literal fortran expressions that could be found
     in a namelist.
@@ -593,10 +591,10 @@ class NamelistBlock(collections.abc.MutableMapping):
 
     def __repr__(self):
         """Returns a formatted id of the current namelist block, including number of items."""
-        parent_repr = super(NamelistBlock, self).__repr__().rstrip('>')
-        return '{0:s} | name={1:s} len={2:d}>'.format(parent_repr,
-                                                      self.name,
-                                                      len(self._pool))
+        parent_repr = super().__repr__().rstrip('>')
+        return '{:s} | name={:s} len={:d}>'.format(parent_repr,
+                                                   self.name,
+                                                   len(self._pool))
 
     def __str__(self):
         """Returns a text dump of the namelist (see the :meth:`dumps` method)."""
@@ -679,8 +677,7 @@ class NamelistBlock(collections.abc.MutableMapping):
 
     def __iter__(self):
         """Iterate through variable names."""
-        for t in self._keys:
-            yield t
+        yield from self._keys
 
     def keys(self):
         """Returns the ordered variable names of the namelist block."""
@@ -831,7 +828,7 @@ class NamelistBlock(collections.abc.MutableMapping):
                         :py:data:`SECOND_ORDER_SORTING` (sort only within indexes or attributes
                         of the same variable: usefull with arrays).
         """
-        namout = " &{0:s}\n".format(self.name)
+        namout = " &{:s}\n".format(self.name)
         if literal is None:
             if self._literal is None:
                 self.__dict__['_literal'] = LiteralParser()
@@ -876,7 +873,7 @@ class NamelistBlock(collections.abc.MutableMapping):
             keylist = self._keys
         for key in keylist:
             value_strings = self.dumps_values(key, literal=literal)
-            namout += '   {0:s}={1:s},\n'.format(key, value_strings)
+            namout += '   {:s}={:s},\n'.format(key, value_strings)
         return namout + " /\n"
 
     def merge(self, delta):
@@ -998,8 +995,7 @@ class NamelistSet(collections.abc.MutableMapping):
         return len(self._mapping_dict)
 
     def __iter__(self):
-        for nbk in self._mapping_dict.keys():
-            yield nbk
+        yield from self._mapping_dict.keys()
 
     def __getitem__(self, key):
         return self._mapping_dict[key.upper()]
@@ -1030,10 +1026,10 @@ class NamelistSet(collections.abc.MutableMapping):
             name will be generated (something like AUTOBLOCKnnn).
         """
         if name is None:
-            name = 'AUTOBLOCK{0:03d}'.format(self._automkblock)
+            name = 'AUTOBLOCK{:03d}'.format(self._automkblock)
             while name in self:
                 self._automkblock += 1
-                name = 'AUTOBLOCK{0:03d}'.format(self._automkblock)
+                name = 'AUTOBLOCK{:03d}'.format(self._automkblock)
         if name not in self:
             self[name] = NamelistBlock(name=name)
         return self[name]
@@ -1112,7 +1108,7 @@ class NamelistSet(collections.abc.MutableMapping):
             return list(self.values())
 
 
-class NamelistParser(object):
+class NamelistParser:
     """
     Parser that creates a :class:`NamelistSet` object from a namelist file or
     a string.
@@ -1344,7 +1340,7 @@ class NamelistParser(object):
         if isinstance(obj, str):
             if not self.block.search(obj):
                 obj = obj.strip()
-                with open(obj, 'r') as iod:
+                with open(obj) as iod:
                     obj = iod.read()
             return self._namelist_parse(obj)
 

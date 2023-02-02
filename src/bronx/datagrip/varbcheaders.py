@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Utility class to read the headers of a VarBC files."""
 import collections
 import re
@@ -74,8 +72,7 @@ other stuff..."""
         return self._metadata[item]
 
     def __iter__(self):
-        for k in self._metadata.keys():
-            yield k
+        yield from self._metadata.keys()
 
     def __len__(self):
         return len(self._metadata)

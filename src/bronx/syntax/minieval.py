@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Parse, check and execute single-line Python's statements.
 
@@ -74,7 +72,7 @@ class SafetyCheckNodeVisitor(ast.NodeVisitor):
     """
 
     #: Allowed AST nodes (regardless of their content)
-    _GENERIC_WHITELIST = set([
+    _GENERIC_WHITELIST = {
         ast.Expression,
         # Literals
         ast.Num, ast.Str, ast.List, ast.Tuple, ast.Set, ast.Dict,
@@ -92,7 +90,7 @@ class SafetyCheckNodeVisitor(ast.NodeVisitor):
         ast.keyword,
         # Subscripting
         ast.Subscript, ast.Index, ast.Slice, ast.ExtSlice,
-    ])
+    }
 
     # Some new AST nodes came up with Python 3
     _GENERIC_WHITELIST.update([ast.Bytes, ast.Starred, ])
@@ -106,7 +104,7 @@ class SafetyCheckNodeVisitor(ast.NodeVisitor):
     _GENERIC_WHITELIST = tuple(_GENERIC_WHITELIST)
 
     #: The list of allowed builtins
-    _BUILTINS_WHITELIST = set([
+    _BUILTINS_WHITELIST = {
         'abs', 'all', 'any', 'ascii', 'bin', 'bool', 'bytearray',
         'bytes', 'chr', 'complex', 'dict', 'divmod', 'enumerate',
         'filter', 'float', 'frozenset', 'hasattr', 'hash', 'hex',
@@ -114,13 +112,13 @@ class SafetyCheckNodeVisitor(ast.NodeVisitor):
         'map', 'max', 'min', 'next', 'oct', 'ord', 'pow', 'range',
         'reversed', 'round', 'set', 'sorted', 'str', 'sum', 'tuple',
         'zip'
-    ])
+    }
 
     def __init__(self, varnames):
         """
         :param varnames: A list of allowed global variable names
         """
-        super(SafetyCheckNodeVisitor, self).__init__()
+        super().__init__()
         self._varnames = varnames
         self._allowednames = set(varnames)
         if not (sys.version_info.minor >= 4):
@@ -143,7 +141,7 @@ class SafetyCheckNodeVisitor(ast.NodeVisitor):
         if not isinstance(node, self._GENERIC_WHITELIST):
             raise SingleLineStatementSecurityError('The "{:s}" AST node is not allowed'
                                                    .format(type(node)))
-        super(SafetyCheckNodeVisitor, self).generic_visit(node)
+        super().generic_visit(node)
 
     def visit_Call(self, node):
         """Check :class:`ast.Call` objects."""
@@ -238,7 +236,7 @@ class SafetyCheckNodeVisitor(ast.NodeVisitor):
             argsbase.append(node.args.vararg)
         if node.args.kwarg is not None:
             argsbase.append(node.args.kwarg)
-        controlvariables = set([a.arg for a in argsbase])  # arg objects
+        controlvariables = {a.arg for a in argsbase}  # arg objects
         for d in defaultbase:
             if d is not None:
                 self.visit(d)
@@ -247,7 +245,7 @@ class SafetyCheckNodeVisitor(ast.NodeVisitor):
             self.visit(node.body)
 
 
-class SingleLineStatement(object):
+class SingleLineStatement:
     """Safely parse, check and evaluate a code statement.
 
     The interface of such a class is fairly simple. One just needs to create an

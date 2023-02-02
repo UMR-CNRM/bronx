@@ -4,7 +4,7 @@ import unittest
 from bronx.compat import functools as py_functools
 
 
-class CachedCostItem(object):
+class CachedCostItem:
     _cost = 1
 
     def __init__(self):
@@ -18,7 +18,7 @@ class CachedCostItem(object):
         return self._cost
 
 
-class OptionallyCachedCostItem(object):
+class OptionallyCachedCostItem:
     _cost = 1
 
     def get_cost(self):

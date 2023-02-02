@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Structure or dictionary like classes for miscellaneous usage.
 """
@@ -7,7 +5,7 @@ Structure or dictionary like classes for miscellaneous usage.
 import collections
 
 
-class Foo(object):
+class Foo:
     """
     Protected C-struct like class... for gathering anything.
     Internal dict methods could be called through i_*methodname* protection.
@@ -93,7 +91,7 @@ class SpecialDict(dict):
         for k, v in [(k, v) for k, v in tmpdict.items() if k != self.remap(k)]:
             del tmpdict[k]
             tmpdict[self.remap(k)] = v
-        super(SpecialDict, self).__init__(tmpdict)
+        super().__init__(tmpdict)
 
     def show(self, ljust=24):
         """Print the actual values of the dictionary."""

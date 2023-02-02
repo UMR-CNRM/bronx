@@ -1,5 +1,3 @@
-# -*- coding:Utf-8 -*-
-
 """
 GetByTag does not provide any "official" design pattern but we consider it to be
 somehow an extension of the Singleton pattern.
@@ -69,7 +67,7 @@ class GetByTagMeta(type):
             d['_tag_table'] = dict()
             d['_tag_focus'] = dict(default=None)
             d['_tag_class'] = WeakSet()
-        realnew = super(GetByTagMeta, cls).__new__(cls, n, b, d)
+        realnew = super().__new__(cls, n, b, d)
         realnew._tag_class.add(realnew)
         return realnew
 
@@ -78,7 +76,7 @@ class GetByTagMeta(type):
         return self.__new__(self, *args, **kw)
 
 
-class GetByTag(object, metaclass=GetByTagMeta):
+class GetByTag(metaclass=GetByTagMeta):
     """
     Utility to retrieve a new/existing object by a special argument named ``tag``.
     If an object had already been created with that tag, return this object.
@@ -124,7 +122,7 @@ class GetByTag(object, metaclass=GetByTagMeta):
         else:
             if not cls._tag_implicit_new and not new:
                 cls._tag_implicit_new_error(tag)
-            newobj = super(GetByTag, cls).__new__(cls)
+            newobj = super().__new__(cls)
             newobj._tag = tag
             cls._tag_table[tag] = newobj
             newobj.__init__(*args, **kw)

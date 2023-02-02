@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 A handy class that checks that an external code import worked properly.
 
@@ -76,7 +74,7 @@ class ExternalCodeUnavailableError(Exception):
     pass
 
 
-class ExternalCodeImportChecker(object):
+class ExternalCodeImportChecker:
     """
     Catches any import error and allow for the developer to test whether it
     succeeded or not.
@@ -183,7 +181,7 @@ class ExternalCodeImportChecker(object):
                 else:
                     def error_new(*args, **kw):
                         raise ExternalCodeUnavailableError(excmsg)
-                    error_new.__name__ = str('__new__')
+                    error_new.__name__ = '__new__'
                     error_new.__doc__ = func_or_cls.__new__.__doc__
                     func_or_cls.__new__ = classmethod(error_new)
                     return func_or_cls

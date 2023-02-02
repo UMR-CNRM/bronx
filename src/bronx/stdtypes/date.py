@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Classes and functions form this module are dedicated to the manipulation of
 date and time quantities.
@@ -155,11 +153,11 @@ def easter(year=None):
 
 
 #: The list of helper date functions
-local_date_functions = dict([
-    (x.__name__, x)
+local_date_functions = {
+    x.__name__: x
     for x in locals().values()
     if inspect.isfunction(x) and x.__doc__ and x.__doc__.startswith('Return the date')
-])
+}
 
 
 def mkisodate(datestr):
@@ -724,7 +722,7 @@ class Period(datetime.timedelta):
         """
         if not isinstance(delta, datetime.timedelta):
             delta = Period(delta)
-        return Period(super(Period, self).__add__(datetime.timedelta(delta.days, delta.seconds)))
+        return Period(super().__add__(datetime.timedelta(delta.days, delta.seconds)))
 
     def __sub__(self, delta):
         """
@@ -733,7 +731,7 @@ class Period(datetime.timedelta):
         """
         if not isinstance(delta, datetime.timedelta):
             delta = Period(delta)
-        return Period(super(Period, self).__sub__(datetime.timedelta(delta.days, delta.seconds)))
+        return Period(super().__sub__(datetime.timedelta(delta.days, delta.seconds)))
 
     def __mul__(self, factor):
         """
@@ -742,7 +740,7 @@ class Period(datetime.timedelta):
         """
         if not isinstance(factor, int):
             factor = int(factor)
-        return Period(super(Period, self).__mul__(factor))
+        return Period(super().__mul__(factor))
 
     def iso8601(self):
         """Plain ISO 8601 representation."""
@@ -788,7 +786,7 @@ class Period(datetime.timedelta):
         """Nicely formatted HH:MM:SS string."""
         hours, mins = divmod(self.length, 3600)
         mins, seconds = divmod(mins, 60)
-        return '{0:02d}:{1:02d}:{2:02d}'.format(hours, mins, seconds)
+        return '{:02d}:{:02d}:{:02d}'.format(hours, mins, seconds)
 
     @property
     def hmscompact(self):
@@ -812,7 +810,7 @@ class Period(datetime.timedelta):
             args.append("microseconds=%d" % self.microseconds)
         if not args:
             args.append('0')
-        return "%s(%s)" % (self.__class__.__name__, ', '.join(args))
+        return "{}({})".format(self.__class__.__name__, ', '.join(args))
 
     _getattr_re = re.compile(r'^time_(?P<what>(?:fmt)[^_]+)$')
 
@@ -828,7 +826,7 @@ class Period(datetime.timedelta):
                                                                             name))
 
 
-class _GetattrCalculatorMixin(object):
+class _GetattrCalculatorMixin:
     """This Mixin class adds the capability to do computations using fake methods.
 
     This can be useful during the footprint's replacement process.
@@ -1041,7 +1039,7 @@ class Date(datetime.datetime, _GetattrCalculatorMixin):
         :mod:`footprints` substitutions, it works like a charm (to compute the
         validity date of a a resource that defines a *term*).
         """
-        super(Date, self).__init__()
+        super().__init__()
         delta_o = self - Date._origin
         self._epoch = delta_o.days * 86400 + delta_o.seconds
 
@@ -1089,7 +1087,7 @@ class Date(datetime.datetime, _GetattrCalculatorMixin):
         return self.hour in (0, 6, 12, 18)
 
     def strftime(self, *kargs, **kwargs):
-        rstr = super(Date, self).strftime(*kargs, **kwargs)
+        rstr = super().strftime(*kargs, **kwargs)
         return rstr
 
     @property
@@ -1143,7 +1141,7 @@ class Date(datetime.datetime, _GetattrCalculatorMixin):
 
     def stamp(self):
         """Compact concatenation up to microseconds."""
-        return self.ymdhms + '{0:06d}'.format(self.microsecond)
+        return self.ymdhms + '{:06d}'.format(self.microsecond)
 
     @property
     def mm(self):
@@ -1203,7 +1201,7 @@ class Date(datetime.datetime, _GetattrCalculatorMixin):
         """
         if not isinstance(delta, datetime.timedelta):
             delta = Period(delta)
-        return Date(super(Date, self).__add__(datetime.timedelta(delta.days, delta.seconds)))
+        return Date(super().__add__(datetime.timedelta(delta.days, delta.seconds)))
 
     def __radd__(self, delta):
         """Reversed add."""
@@ -1216,7 +1214,7 @@ class Date(datetime.datetime, _GetattrCalculatorMixin):
         """
         if not isinstance(delta, datetime.datetime) and not isinstance(delta, datetime.timedelta):
             delta = guess(delta)
-        substract = super(Date, self).__sub__(delta)
+        substract = super().__sub__(delta)
         if isinstance(delta, datetime.datetime):
             return Period(substract)
         else:
@@ -1238,7 +1236,7 @@ class Date(datetime.datetime, _GetattrCalculatorMixin):
         except (ValueError, TypeError):
             pass
         finally:
-            return self.compact() == '{0:<08s}'.format(str(other))
+            return self.compact() == '{:<08s}'.format(str(other))
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -1250,7 +1248,7 @@ class Date(datetime.datetime, _GetattrCalculatorMixin):
         except (ValueError, TypeError):
             pass
         finally:
-            return self.compact() < '{0:<08s}'.format(str(other))
+            return self.compact() < '{:<08s}'.format(str(other))
 
     def __le__(self, other):
         return self == other or self < other
@@ -1262,7 +1260,7 @@ class Date(datetime.datetime, _GetattrCalculatorMixin):
         except (ValueError, TypeError):
             pass
         finally:
-            return self.compact() > '{0:<08s}'.format(str(other))
+            return self.compact() > '{:<08s}'.format(str(other))
 
     def __ge__(self, other):
         return self == other or self > other
@@ -1521,7 +1519,7 @@ class Time(_GetattrCalculatorMixin):
 
     def __repr__(self):
         """Standard hour-minute representation."""
-        return 'Time({0:d}, {1:d})'.format(self.hour, self.minute)
+        return 'Time({:d}, {:d})'.format(self.hour, self.minute)
 
     def export_dict(self):
         """String representation for dict or shell variable."""
@@ -1633,7 +1631,7 @@ class Time(_GetattrCalculatorMixin):
         """DDHHMM formated string."""
         (days, hours, minutes) = self.dhm
         sign = '-' if int(self) < 0 else ''
-        return '{0:s}{1:02d}{2:02d}{3:02d}'.format(sign, abs(days), abs(hours), abs(minutes))
+        return '{:s}{:02d}{:02d}{:02d}'.format(sign, abs(days), abs(hours), abs(minutes))
 
     @property
     def fmth(self):
@@ -1687,7 +1685,7 @@ class Time(_GetattrCalculatorMixin):
 
     def nice(self, t):
         """Kept for backward compatibility. Plesae do not use."""
-        return '{0:04d}'.format(t)
+        return '{:04d}'.format(t)
 
 
 def _delegate_op_to_timeobj(proxymethods):
@@ -1768,7 +1766,7 @@ class TimeInt(int):
 
 
 @functools.total_ordering
-class Month(object):
+class Month:
     """
     Basic class for handling a month number, according to an explicit or
     implicit year.
@@ -1908,12 +1906,12 @@ class Month(object):
     @property
     def fmtym(self):
         """YYYY-MM formated string."""
-        return '{0:04d}-{1:02d}'.format(self._year, self._month)
+        return '{:04d}-{:02d}'.format(self._year, self._month)
 
     @property
     def fmtraw(self):
         """YYYYMM formated string."""
-        return '{0:04d}{1:02d}'.format(self._year, self._month)
+        return '{:04d}{:02d}'.format(self._year, self._month)
 
     def export_dict(self):
         """Return the month and year as a tuple."""
@@ -1932,11 +1930,11 @@ class Month(object):
 
     def __str__(self):
         """Return a two digit value of the current month int value."""
-        return '{0:02d}'.format(self._month)
+        return '{:02d}'.format(self._month)
 
     def __repr__(self):
         """Return a formated id of the current month."""
-        return '{0:s}({1:02d}, year={2:d})'.format(self.__class__.__name__, self._month, self._year)
+        return '{:s}({:02d}, year={:d})'.format(self.__class__.__name__, self._month, self._year)
 
     def __add__(self, delta):
         """

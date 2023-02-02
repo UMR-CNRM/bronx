@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Interface to the Python's :mod:`hashlib` module that generates hashes on files, strings, ...
 """
@@ -8,7 +6,7 @@ import os
 from io import BytesIO
 
 
-class HashAdapter(object):
+class HashAdapter:
     """
     This class provides convenient methods to generate and check hash sums on
     files, File objects or strings.
@@ -113,7 +111,7 @@ class HashAdapter(object):
         # Get the reference hash string
         if isinstance(reference, str):
             if os.path.isfile(reference):
-                with open(reference, 'r', encoding='utf-8') as i_fh:
+                with open(reference, encoding='utf-8') as i_fh:
                     hashref = self._read_hashline(i_fh)
             else:
                 hashref = reference

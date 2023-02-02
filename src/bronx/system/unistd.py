@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Utilities to work on file descriptors through the standard Linux C layer.
 

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Tests both :mod:`bronx.datagrip.varbc` and :mod:`bronx.datagrip.varbcheaders`."""
 
 import copy
@@ -60,7 +58,7 @@ class TestVarbcFile(unittest.TestCase):
         self.assertEqual(vbc_h['date'].ymdh, '2020012306')
         self.assertEqual(vbc_h['nentries'], 3)
         self.assertEqual(vbc_h['expver'], 'TRAJ')
-        self.assertSetEqual(set(vbc_h), set(['version', 'date', 'nentries', 'expver']))
+        self.assertSetEqual(set(vbc_h), {'version', 'date', 'nentries', 'expver'})
         self.assertEqual(len(vbc_h), 4)
 
     def test_varbc_read(self):

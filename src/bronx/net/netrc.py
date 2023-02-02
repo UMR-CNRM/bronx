@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """An object-oriented interface to .netrc files.
 
 This code has been extracted from Python 3.5 and two patches have been applied:
@@ -44,7 +42,7 @@ class NetrcParseError(Exception):
         Exception.__init__(self, msg)
 
     def __str__(self):
-        return "%s (%s, line %s)" % (self.msg, self.filename, self.lineno)
+        return "{} ({}, line {})".format(self.msg, self.filename, self.lineno)
 
 
 class netrc:
@@ -84,7 +82,7 @@ class netrc:
         self.hosts = {}
         self.allhosts = {}
         self.macros = {}
-        with open(file, 'r') as fp:
+        with open(file) as fp:
             self._parse(file, fp, default_netrc)
 
     def _parse(self, file, fp, default_netrc):

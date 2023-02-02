@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 A collection of basic utilities that are used in the Vortex project
 but also in other ones. Consequently, this package is independent

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Tools for handling axes within figures.
 """

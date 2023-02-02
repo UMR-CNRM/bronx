@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from bronx.syntax.pretty import smooth_string

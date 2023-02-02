@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from calendar import IllegalMonthError
 from datetime import datetime, timedelta
 import pickle
@@ -993,8 +992,8 @@ class utMonth(TestCase):
                 self.assertEqual(rv.nextmonth().month, m + 1)
             else:
                 self.assertEqual(rv.nextmonth().month, 1)
-            self.assertEqual(rv.fmtraw, '{0:04d}{1:02d}'.format(thisyear, m))
-            self.assertEqual(rv.fmtym, '{0:04d}-{1:02d}'.format(thisyear, m))
+            self.assertEqual(rv.fmtraw, '{:04d}{:02d}'.format(thisyear, m))
+            self.assertEqual(rv.fmtym, '{:04d}-{:02d}'.format(thisyear, m))
 
         rv = date.Month(2, 2014)
         self.assertEqual(rv.month, 2)

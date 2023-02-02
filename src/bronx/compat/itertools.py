@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Compatibility for some of the features of the itertools modules.
 

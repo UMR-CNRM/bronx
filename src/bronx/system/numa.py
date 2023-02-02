@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 This module provides informations on the NUMA partitioning of the CPUs.
 
@@ -113,7 +111,7 @@ def numa_nodes_info():
         raise NotImplementedError('No suitable NumaNodesInfo implementation could be found')
 
 
-class NumaNodeInfo(object):
+class NumaNodeInfo:
     """Hold information on a single Numa node."""
 
     def __init__(self, cpus, distances, totalsize):
@@ -147,7 +145,7 @@ class NumaNodeInfo(object):
         return s_out
 
 
-class _NumaAbstractCpuIdDispencer(object, metaclass=abc.ABCMeta):
+class _NumaAbstractCpuIdDispencer(metaclass=abc.ABCMeta):
     """Dispenser object return blocks of CPUs of a given size.
 
     It can be used as an iterator (in this case, the block's size needs to be
@@ -186,7 +184,7 @@ class _NumaPackedCpuIdDispenser(_NumaAbstractCpuIdDispencer):
     """
 
     def __init__(self, total_avcpus, xnodesclust, default_bsize=None):
-        super(_NumaPackedCpuIdDispenser, self).__init__(default_bsize=default_bsize)
+        super().__init__(default_bsize=default_bsize)
         self._total_avcpus = total_avcpus
         self._last_blocksize = None
         self._xnodesclust = xnodesclust
@@ -250,7 +248,7 @@ class _NumaBalancedCpuIdDispenser(_NumaAbstractCpuIdDispencer):
     """
 
     def __init__(self, cpuiterator, default_bsize=None):
-        super(_NumaBalancedCpuIdDispenser, self).__init__(default_bsize=default_bsize)
+        super().__init__(default_bsize=default_bsize)
         self._cpuiter = cpuiterator
 
     def __call__(self, blocksize):
@@ -261,7 +259,7 @@ class _NumaBalancedCpuIdDispenser(_NumaAbstractCpuIdDispencer):
         return sorted(res)
 
 
-class _MetaCpuIdDispenser(object):
+class _MetaCpuIdDispenser:
     """Group several :class:`_NumaAbstractCpuIdDispencer` into one."""
 
     def __init__(self, *dispensers):
@@ -353,7 +351,7 @@ class NumaNodesInfo(Mapping, metaclass=abc.ABCMeta):
             physicalcpus = set(smtlayout.keys())
             numa_nodes_iterator = dict()
             for nnode, ninfo in self.items():
-                linfo = NumaNodeInfo(set([c for c in ninfo.cpus if c in physicalcpus]),
+                linfo = NumaNodeInfo({c for c in ninfo.cpus if c in physicalcpus},
                                      ninfo.distances, ninfo.totalsize)
                 numa_nodes_iterator[nnode] = linfo
         else:
@@ -368,7 +366,7 @@ class NumaNodesInfo(Mapping, metaclass=abc.ABCMeta):
             nodesclust = {self[0].distances[1]: [set(self.keys()), ]}
         else:
             nodesclust = copy.copy(self.nodes_clustering)
-        nodesclust[0] = [set([n, ]) for n in sorted(self.keys())]
+        nodesclust[0] = [{n} for n in sorted(self.keys())]
 
         # Re-order things in order to spread the blocks all over the NUMA nodes
         distances = sorted(nodesclust.keys())
@@ -587,7 +585,7 @@ class LibNumaNodesInfo(NumaNodesInfo):
 
     def __init__(self, **kwargs):
         self._gateway = self._gateway_class(** kwargs)
-        super(LibNumaNodesInfo, self).__init__()
+        super().__init__()
 
     def _fill_nodes(self):
         """Fill the self._nodes dictionary with :class:`NumaNodeInfo` objects."""
