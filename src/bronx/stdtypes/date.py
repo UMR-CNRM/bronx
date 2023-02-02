@@ -832,7 +832,7 @@ class _GetattrCalculatorMixin:
     This can be useful during the footprint's replacement process.
     """
 
-    _getattr_re = re.compile(r'^(?P<basics>(?:(?:add|sub)[^_]+_?)+)(?:_(?P<fmt>[^_]+))?(?<!_)$')
+    _getattr_re = re.compile(r'^(?P<basics>(?:(?:add|sub)(?![^_]*(add|sub)[^_]*_)[^_]+_?)+)(?:_(?P<fmt>[^_]+))?(?<!_)$')
     _getattr_basic_re = re.compile(r'^(?P<op>add|sub)(?P<operand>[^_]+)')
     _getattr_proxyclass = None
 

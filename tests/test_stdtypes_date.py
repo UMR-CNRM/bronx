@@ -355,8 +355,10 @@ class utDate(TestCase):
                          "2011072618")
         self.assertEqual(rv.addterm_ymdh(dict(), dict(term=date.Period('PT6H'))),
                          "2011072618")
-        with self.assertRaises(KeyError):
+        with self.assertRaises(AttributeError):
             rv.addadd_ymdh(dict(), dict(toto=date.Period('PT6H')))
+        with self.assertRaises(AttributeError):
+            rv.addnewadd_ymdh(dict(), dict(toto=date.Period('PT6H')))
         with self.assertRaises(KeyError):
             rv.addterm_ymdh(dict(), dict(toto=date.Period('PT6H')))
         # Now look for very complex stuff
@@ -604,7 +606,7 @@ class utTime(TestCase):
                          "0018")
         self.assertEqual(rv.addmachin_fmth(dict(), dict(machin=date.Period('PT6H'))),
                          "0018")
-        with self.assertRaises(KeyError):
+        with self.assertRaises(AttributeError):
             rv.addadd_fmth(dict(), dict(toto=date.Period('PT6H')))
         with self.assertRaises(KeyError):
             rv.addterm_fmth(dict(), dict(toto=date.Period('PT6H')))
