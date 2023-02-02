@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function, absolute_import, unicode_literals, division
-import six
-
 import unittest
 
 from bronx.fancies import loggers
@@ -43,15 +40,6 @@ class TestExternalCodeImport(unittest.TestCase):
             return True
         with self.assertRaises(ExternalCodeUnavailableError):
             test_func1()
-
-        if six.PY2:
-            # Old-Style clases doesn't exists anymore with Python3
-            with self.assertRaises(TypeError):
-                @ec_checker.disabled_if_unavailable
-                class test_cls1():
-
-                    def toto(self):
-                        return True
 
         @ec_checker.disabled_if_unavailable
         class test_cls2(object):

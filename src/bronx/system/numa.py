@@ -81,18 +81,15 @@ On Belenos (2x AMD Rome socket with 64 cores each)::
 
 """
 
-from __future__ import print_function, absolute_import, unicode_literals, division
-
-import six
-
 import abc
 from collections import defaultdict, deque
+from collections.abc import Mapping
 import copy
+
 from ctypes import CDLL, byref, c_longlong
 from ctypes.util import find_library
 from itertools import chain, cycle, combinations
 
-from bronx.compat.moves import collections_abc
 from bronx.patterns import Singleton
 
 
@@ -150,8 +147,7 @@ class NumaNodeInfo(object):
         return s_out
 
 
-@six.add_metaclass(abc.ABCMeta)
-class _NumaAbstractCpuIdDispencer(object):
+class _NumaAbstractCpuIdDispencer(object, metaclass=abc.ABCMeta):
     """Dispenser object return blocks of CPUs of a given size.
 
     It can be used as an iterator (in this case, the block's size needs to be
@@ -177,9 +173,6 @@ class _NumaAbstractCpuIdDispencer(object):
 
     def __next__(self):
         return self(self._default_bsize)
-
-    if six.PY2:
-        next = __next__
 
     @abc.abstractmethod
     def __call__(self, blocksize):
@@ -289,8 +282,7 @@ class _MetaCpuIdDispenser(object):
         raise StopIteration()
 
 
-@six.add_metaclass(abc.ABCMeta)
-class NumaNodesInfo(collections_abc.Mapping):
+class NumaNodesInfo(Mapping, metaclass=abc.ABCMeta):
     """Hold information on the system's NUMA nodes.
 
     Abstract class.

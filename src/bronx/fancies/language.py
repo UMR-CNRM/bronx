@@ -4,8 +4,6 @@
 Various tools related to languages.
 """
 
-from __future__ import print_function, absolute_import, unicode_literals, division
-
 import locale
 import re
 import sys

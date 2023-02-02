@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function, absolute_import, unicode_literals, division
-
 from decimal import Decimal
-import six
+import io
 from unittest import TestCase, skipUnless, main
 
 from bronx.datagrip import namelist
@@ -288,10 +286,10 @@ C='Trash',
 
     def test_namparser_namset_basics(self):
         np = namelist.NamelistParser(macros=('NBPROC', ))
-        ori = six.StringIO()
+        ori = io.StringIO()
         ori.write(DIRTYNAM)
         parse_res = np.parse(ori)
-        self.assertSetEqual(set(six.iterkeys(parse_res)),
+        self.assertSetEqual(set((parse_res).keys()),
                             set(['MYNAMELISTTEST', 'MYSECONDONE']))
         self.assertFalse(parse_res.dumps_needs_update)
         self.assertEqual(parse_res.dumps(), CLEANEDNAM)

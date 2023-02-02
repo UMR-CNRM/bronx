@@ -48,10 +48,6 @@ Basic example (see :class:`GetByTag` class documentation for more advanced featu
 
 """
 
-from __future__ import print_function, absolute_import, division, unicode_literals
-
-import six
-
 from weakref import WeakSet
 
 from bronx.fancies import loggers
@@ -82,8 +78,7 @@ class GetByTagMeta(type):
         return self.__new__(self, *args, **kw)
 
 
-@six.add_metaclass(GetByTagMeta)
-class GetByTag(object):
+class GetByTag(object, metaclass=GetByTagMeta):
     """
     Utility to retrieve a new/existing object by a special argument named ``tag``.
     If an object had already been created with that tag, return this object.

@@ -9,14 +9,10 @@ on Python 3.8+ the :class:`cached_property` decorator from the standard library
 is used.
 """
 
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import sys
 from threading import RLock
 
-import six
-
-if six.PY2 or (sys.version_info.major == 3 and sys.version_info.major < 8):
+if sys.version_info.major == 3 and sys.version_info.major < 8:
 
     _NOT_FOUND = object()
 

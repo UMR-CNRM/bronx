@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function, absolute_import, unicode_literals, division
-
 """Tests both :mod:`bronx.datagrip.varbc` and :mod:`bronx.datagrip.varbcheaders`."""
 
 import copy
-import io
 import os
 import unittest
 
@@ -67,18 +64,18 @@ class TestVarbcFile(unittest.TestCase):
         self.assertEqual(len(vbc_h), 4)
 
     def test_varbc_read(self):
-        with io.open(_find_testfile('varbc.arpege-traj.txt.li')) as fhvbc:
+        with open(_find_testfile('varbc.arpege-traj.txt.li')) as fhvbc:
             vbc = varbc.VarbcFile(fhvbc)
         self._assert_ok_varbc(vbc)
-        with io.open(_find_testfile('varbc.arpege-traj.txt.li.ko1')) as fhvbc:
+        with open(_find_testfile('varbc.arpege-traj.txt.li.ko1')) as fhvbc:
             with self.assertRaises(ValueError):
                 varbc.VarbcFile(fhvbc)
-        with io.open(_find_testfile('varbc.arpege-traj.txt.li.ko2')) as fhvbc:
+        with open(_find_testfile('varbc.arpege-traj.txt.li.ko2')) as fhvbc:
             with self.assertRaises(ValueError):
                 varbc.VarbcFile(fhvbc)
 
     def test_varbc_headers(self):
-        with io.open(_find_testfile('varbc.arpege-traj.txt.li')) as fhvbc:
+        with open(_find_testfile('varbc.arpege-traj.txt.li')) as fhvbc:
             vbc = varbcheaders.VarbcHeadersFile(fhvbc)
         self._assert_ok_headers(vbc)
         with self.assertRaises(StopIteration):

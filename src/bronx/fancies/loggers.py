@@ -50,10 +50,6 @@ Example::
 
 """
 
-from __future__ import print_function, absolute_import, division, unicode_literals
-
-import six
-
 import contextlib
 import logging
 import threading
@@ -153,7 +149,7 @@ def contextboundGlobalLevel(level):
 def contextboundRedirectStdout(outputs=None):
     """Within this context manager, redirect all the outputs to a StringIO object."""
     if outputs is None:
-        outputs = six.StringIO()
+        outputs = io.StringIO()
     with _logging_threading_lock:
         # Tweak the root logger
         r_handlers = dict()
@@ -259,27 +255,13 @@ def setRootLogger(logger):
     return logger
 
 
-def setLogMethods(logger, methods=('debug', 'info', 'warning', 'error', 'critical')):
-    """Reset some loggers methods with methods from an external logger.
-
-    :note: This method is realy disturbing. Its use won't be allowed anymore
-           with Python3
-    """
-    if not six.PY2:
-        raise RuntimeError('The ``setLogMethod`` is deprecated.')
-    for modname in lognames:
-        thislog = logging.getLogger(modname)
-        for logmethod in methods:
-            setattr(thislog, logmethod, getattr(logger, logmethod))
-
-
 def getActualLevel(level):
     """Return the actual level value as long as the argument is valid.
 
     ``level`` can be a verbosity level name (e.g debug, info, ...) or the
     number associated with it.
     """
-    lnames = logging._levelNames if six.PY2 else logging._nameToLevel
+    lnames = logging._nameToLevel
     if type(level) is not int:
         level = lnames.get(level.upper(), None)
     return level

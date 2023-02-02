@@ -3,11 +3,7 @@
 """
 Miscellaneous I/O tools.
 """
-
-from __future__ import print_function, absolute_import, unicode_literals, division
-
 import csv
-import io
 import yaml
 from collections import OrderedDict
 
@@ -26,7 +22,7 @@ def read_dict_in_CSV(filename):
 
     """
     field_dict = []
-    with io.open(filename, 'r') as f:
+    with open(filename, 'r') as f:
         delimiter = str(f.readline()[0])
         file_priority = str(f.readline()[0:-1])
         field_table = csv.reader(f, delimiter=delimiter)
@@ -58,6 +54,6 @@ class OrderedYAMLLoader(yaml.SafeLoader):
 
 def load_ordered_yaml(filename):
     """Proxy to load with OrderedYAMLLoader."""
-    with io.open(filename, 'r') as yamlfh:
+    with open(filename, 'r') as yamlfh:
         odict = yaml.load(yamlfh, Loader=OrderedYAMLLoader)
     return odict

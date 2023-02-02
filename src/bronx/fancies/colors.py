@@ -7,8 +7,6 @@ TODO: Add an usage example
 TODO: Add a simple unittest
 """
 
-from __future__ import print_function, absolute_import, unicode_literals, division
-import six
 
 import re
 
@@ -91,7 +89,7 @@ class termcolors(object):
                 settings.append(cls.foreground.get(fgcolor.replace(' ', '').lower()))
             if bgcolor is not None:
                 settings.append(cls.background.get(bgcolor.replace(' ', '').lower()))
-            text = '\033[' + ';'.join([str(x) for x in settings]) + 'm' + six.text_type(text) + '\033[0m'
+            text = '\033[' + ';'.join([str(x) for x in settings]) + 'm' + str(text) + '\033[0m'
         return text
 
     @classmethod
@@ -100,9 +98,9 @@ class termcolors(object):
             exit_map = enter_map
         item = item.replace(' ', '').lower()
         return '\033[{0:s}m{1:s}\033[{2:s}m'.format(
-            six.text_type(enter_map.get(item)),
-            six.text_type(text),
-            six.text_type(exit_map.get('default'))
+            str(enter_map.get(item)),
+            str(text),
+            str(exit_map.get('default'))
         )
 
     @classmethod

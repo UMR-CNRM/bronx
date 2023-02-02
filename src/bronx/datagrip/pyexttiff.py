@@ -8,10 +8,6 @@ This module uses code from pylibtiff (https://pypi.python.org/pypi/libtiff,
 https://code.google.com/p/pylibtiff or https://github.com/hmeine/pylibtiff)
 """
 
-from __future__ import print_function, absolute_import, division  # , unicode_literals
-import six
-
-import io
 import mmap
 import numpy
 import os
@@ -93,8 +89,8 @@ class TiffFile(object):
 
         *method* is the method used to read data:
 
-            * 1: f=io.open(..., 'rb') ; numpy.frombuffer(f.read(), dtype=numpy.ubyte)
-            * 2: f=io.open(..., 'rb') ; numpy.ndarray(buffer=mmap(f), dtype=numpy.ubyte)
+            * 1: f=open(..., 'rb') ; numpy.frombuffer(f.read(), dtype=numpy.ubyte)
+            * 2: f=open(..., 'rb') ; numpy.ndarray(buffer=mmap(f), dtype=numpy.ubyte)
             * 3: same as 2 but with modifications allowed - DANGEROUS
 
         """
@@ -106,14 +102,14 @@ class TiffFile(object):
 
         # Reading file
         if method == 1:
-            with io.open(filename, 'rb') as f:
+            with open(filename, 'rb') as f:
                 self._data = numpy.frombuffer(f.read(), dtype=numpy.ubyte)
         elif method == 2:
-            self._fileHandle = io.open(filename, 'rb')
+            self._fileHandle = open(filename, 'rb')
             mm = mmap.mmap(self._fileHandle.fileno(), 0, prot=mmap.PROT_READ)
             self._data = numpy.ndarray(shape=(mm.size(),), buffer=mm, dtype=numpy.ubyte)
         elif method == 3:
-            self._fileHandle = io.open(filename, 'r+b')
+            self._fileHandle = open(filename, 'r+b')
             mm = mmap.mmap(self._fileHandle.fileno(), 0)
             self._data = numpy.ndarray(shape=(mm.size(),), buffer=mm, dtype=numpy.ubyte)
         else:
@@ -216,7 +212,7 @@ class TiffFile(object):
         """
         Returns the stringio representeing the buffer.
         """
-        return six.StringIO(self.get_buffer())
+        return io.StringIO(self.get_buffer())
 
     def get_PILImage(self):
         """
@@ -241,7 +237,7 @@ class TiffFile(object):
             dtype = typ
             size = typ().itemsize
         else:
-            if isinstance(typ, six.string_types):
+            if isinstance(typ, str):
                 ntyp = typ
                 typ = TiffFile._name2type.get(typ)
             else:

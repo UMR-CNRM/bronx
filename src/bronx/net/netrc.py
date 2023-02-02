@@ -19,9 +19,6 @@ This code has been extracted from Python 3.5 and two patches have been applied:
 # Proposed patch applied: https://bugs.python.org/issue11416
 # LFM: netrc._passwd_clean regex introduced to remove matching quotes
 
-from __future__ import absolute_import, division, print_function, unicode_literals
-
-import io
 import os
 import re
 import shlex
@@ -87,7 +84,7 @@ class netrc:
         self.hosts = {}
         self.allhosts = {}
         self.macros = {}
-        with io.open(file, 'r') as fp:
+        with open(file, 'r') as fp:
             self._parse(file, fp, default_netrc)
 
     def _parse(self, file, fp, default_netrc):

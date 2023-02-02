@@ -6,10 +6,6 @@ A templating system for nested dictionaries and lists.
 The :class:`DefaultTemplate` class should be used directly. See its documentation.
 """
 
-from __future__ import print_function, absolute_import, division, unicode_literals
-
-import six
-
 import copy
 import re
 
@@ -163,7 +159,7 @@ class DefaultTemplate(object):
         elif isinstance(tpl, list):
             return [self._recursive_render(v, subs) for v in tpl]
 
-        elif isinstance(tpl, six.string_types):
+        elif isinstance(tpl, str):
             e_match = self._INLINE_EVAL_RE.match(tpl)
             if e_match:
                 return self._sls(e_match.group(1), ** subs)

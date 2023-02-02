@@ -41,10 +41,6 @@ Formats hypothesis:
 
 """
 
-from __future__ import print_function, absolute_import, division, unicode_literals
-
-import six
-
 import calendar
 import datetime
 import functools
@@ -164,10 +160,6 @@ local_date_functions = dict([
     for x in locals().values()
     if inspect.isfunction(x) and x.__doc__ and x.__doc__.startswith('Return the date')
 ])
-
-if six.PY2:
-    # noinspection PyUnboundLocalVariable
-    del x
 
 
 def mkisodate(datestr):
@@ -321,8 +313,8 @@ def daterangex(start, end=None, step=None, shift=None, fmt=None, prefix=None):
     """
     rangevalues = list()
 
-    pstarts = ([six.text_type(s) for s in start]
-               if isinstance(start, (list, tuple)) else six.text_type(start).split(','))
+    pstarts = ([str(s) for s in start]
+               if isinstance(start, (list, tuple)) else str(start).split(','))
 
     for pstart in pstarts:
         actualrange = re.split('[-/]', pstart)
@@ -363,7 +355,7 @@ def daterangex(start, end=None, step=None, shift=None, fmt=None, prefix=None):
                         pvalues = [x() for x in pvalues]
 
             if prefix is not None:
-                pvalues = [prefix + six.text_type(x) for x in pvalues]
+                pvalues = [prefix + str(x) for x in pvalues]
 
         rangevalues.extend(pvalues)
 
@@ -425,8 +417,8 @@ def timerangex(start, end=None, step=None, shift=None, fmt=None, prefix=None):
     if start is None:
         return list()
 
-    pstarts = ([six.text_type(s) for s in start]
-               if isinstance(start, (list, tuple)) else six.text_type(start).split(','))
+    pstarts = ([str(s) for s in start]
+               if isinstance(start, (list, tuple)) else str(start).split(','))
     for pstart in pstarts:
 
         realstart = pstart
@@ -480,7 +472,7 @@ def timerangex(start, end=None, step=None, shift=None, fmt=None, prefix=None):
                     pvalues = [x() for x in pvalues]
 
         if prefix is not None:
-            pvalues = [prefix + six.text_type(x) for x in pvalues]
+            pvalues = [prefix + str(x) for x in pvalues]
 
         rangevalues.extend(pvalues)
 
@@ -541,8 +533,8 @@ def timeintrangex(start, end=None, step=None, shift=None, fmt=None, prefix=None)
         >>> timeintrangex('0-12-3,18-36-6,48')
         [0, 3, 6, 9, 12, 18, 24, 30, 36, 48]
     """
-    pstarts = ([six.text_type(s) for s in start]
-               if isinstance(start, (list, tuple)) else six.text_type(start).split(','))
+    pstarts = ([str(s) for s in start]
+               if isinstance(start, (list, tuple)) else str(start).split(','))
     auto_prefix = None
     auto_pstarts = list()
     for pstart in pstarts:
@@ -572,7 +564,7 @@ def timeintrangex(start, end=None, step=None, shift=None, fmt=None, prefix=None)
                    for i, x in enumerate(pvalues)]
 
     if prefix is not None:
-        pvalues = [prefix + six.text_type(x) for x in pvalues]
+        pvalues = [prefix + str(x) for x in pvalues]
 
     return sorted(pvalues)
 
@@ -620,7 +612,7 @@ class Period(datetime.timedelta):
     @staticmethod
     def _parse(string):
         """Find out time duration that could be extracted from string argument."""
-        if not isinstance(string, six.string_types):
+        if not isinstance(string, str):
             raise TypeError("Expected string input")
         if len(string) < 2:
             raise ValueError("Badly formed short string %s" % string)
@@ -703,7 +695,7 @@ class Period(datetime.timedelta):
             ld = [0, top]
         elif isinstance(top, int) and len(args) > 1:
             ld = list(args)
-        elif isinstance(top, six.string_types):
+        elif isinstance(top, str):
             ld = [0, Period._parse(top)]
         if not ld:
             raise ValueError("Initial Period value unknown")
@@ -927,7 +919,7 @@ class Date(datetime.datetime, _GetattrCalculatorMixin):
         top = args[0]
         deltas = []
         ld = list()
-        if isinstance(top, six.string_types) and top in local_date_functions:
+        if isinstance(top, str) and top in local_date_functions:
             try:
                 top = local_date_functions[top](**kw)
                 kw = dict()
@@ -940,15 +932,15 @@ class Date(datetime.datetime, _GetattrCalculatorMixin):
         elif isinstance(top, float):
             top = Date._origin + datetime.timedelta(0, top)
             ld = [top.year, top.month, top.day, top.hour, top.minute, top.second]
-        elif isinstance(top, six.string_types):
+        elif isinstance(top, str):
             s_top = top.split('/')
             top = s_top[0]
-            top = re.sub('^YYYY', six.text_type(max(0, int(kw.pop('year', today().year)))), top.upper())
+            top = re.sub('^YYYY', str(max(0, int(kw.pop('year', today().year)))), top.upper())
             deltas = s_top[1:]
             ld = [int(x) for x in re.split('[-:HTZ]+', mkisodate(top)) if re.match(r'\d+$', x)]
         else:
             ld = [int(x) for x in args
-                  if isinstance(x, (int, float)) or (isinstance(x, six.string_types) and re.match(r'\d+$', x))]
+                  if isinstance(x, (int, float)) or (isinstance(x, str) and re.match(r'\d+$', x))]
         if not ld:
             raise ValueError("Initial Date value unknown (args: {!s}, kw: {!s})".format(args, kw))
         newdate = datetime.datetime.__new__(cls, *ld)
@@ -1098,12 +1090,7 @@ class Date(datetime.datetime, _GetattrCalculatorMixin):
 
     def strftime(self, *kargs, **kwargs):
         rstr = super(Date, self).strftime(*kargs, **kwargs)
-        if six.PY2:
-            renc = (locale.getlocale(locale.LC_TIME)[1] or
-                    locale.getlocale()[1] or 'utf-8')
-            return rstr.decode(encoding=renc)
-        else:
-            return rstr
+        return rstr
 
     @property
     def julian(self):
@@ -1194,7 +1181,7 @@ class Date(datetime.datetime, _GetattrCalculatorMixin):
 
     def vortex(self, cutoff='P'):
         """Semi-compact representation for vortex paths."""
-        return self.strftime('%Y%m%dT%H%M') + six.text_type(cutoff)[0].upper()
+        return self.strftime('%Y%m%dT%H%M') + str(cutoff)[0].upper()
 
     @property
     def stdvortex(self):
@@ -1251,7 +1238,7 @@ class Date(datetime.datetime, _GetattrCalculatorMixin):
         except (ValueError, TypeError):
             pass
         finally:
-            return self.compact() == '{0:<08s}'.format(six.text_type(other))
+            return self.compact() == '{0:<08s}'.format(str(other))
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -1263,7 +1250,7 @@ class Date(datetime.datetime, _GetattrCalculatorMixin):
         except (ValueError, TypeError):
             pass
         finally:
-            return self.compact() < '{0:<08s}'.format(six.text_type(other))
+            return self.compact() < '{0:<08s}'.format(str(other))
 
     def __le__(self, other):
         return self == other or self < other
@@ -1275,7 +1262,7 @@ class Date(datetime.datetime, _GetattrCalculatorMixin):
         except (ValueError, TypeError):
             pass
         finally:
-            return self.compact() > '{0:<08s}'.format(six.text_type(other))
+            return self.compact() > '{0:<08s}'.format(str(other))
 
     def __ge__(self, other):
         return self == other or self > other
@@ -1483,7 +1470,7 @@ class Time(_GetattrCalculatorMixin):
             self._hour, self._minute = newtime.hour, newtime.minute
         elif isinstance(top, float):
             self._hour, self._minute = int(top), int((top - int(top)) * 60)
-        elif isinstance(top, six.string_types):
+        elif isinstance(top, str):
             s_top = top.split('/')
             top = s_top[0]
             deltas = s_top[1:]
@@ -1497,7 +1484,7 @@ class Time(_GetattrCalculatorMixin):
         else:
             ld = [int(x) for x in args
                   if (type(x) in (int, float) or
-                      (isinstance(x, six.string_types) and re.match(r'\d+$', x)))]
+                      (isinstance(x, str) and re.match(r'\d+$', x)))]
         if ld:
             if len(ld) < 2:
                 ld.append(0)
@@ -1692,7 +1679,7 @@ class Time(_GetattrCalculatorMixin):
 
     def isoformat(self):
         """Almost ISO representation (HH:MM)."""
-        return six.text_type(self)
+        return str(self)
 
     def iso8601(self):
         """Plain ISO 8601 representation."""
@@ -1764,7 +1751,7 @@ class TimeInt(int):
 
     def __str__(self):
         if self.is_int():
-            return six.text_type(self.ti)
+            return str(self.ti)
         else:
             return self.str_time
 
@@ -1777,7 +1764,7 @@ class TimeInt(int):
 
     @property
     def value(self):
-        return self.ti if self.is_int() else six.text_type(self)
+        return self.ti if self.is_int() else str(self)
 
 
 @functools.total_ordering
@@ -1873,7 +1860,7 @@ class Month(object):
         else:
             # Try to generate a Date object
             mmod = None
-            if isinstance(top, six.string_types):
+            if isinstance(top, str):
                 mmod = re.search(':(next|prev|closest)$', top)
                 if mmod:
                     args[0] = re.sub(':(?:next|prev|closest)$', '', top)
@@ -2001,7 +1988,7 @@ class Month(object):
 
     def __eq__(self, other):
         try:
-            if isinstance(other, int) or (isinstance(other, six.string_types) and
+            if isinstance(other, int) or (isinstance(other, str) and
                                           len(other.lstrip('0')) < 3):
                 rc = self.month == Month(int(other), self.year).month
             else:
@@ -2019,7 +2006,7 @@ class Month(object):
             return rc
 
     def __gt__(self, other):
-        if isinstance(other, int) or (isinstance(other, six.string_types) and
+        if isinstance(other, int) or (isinstance(other, str) and
                                       len(other.lstrip('0')) < 3):
             rc = self.month > Month(int(other), self.year).month
         else:

@@ -10,8 +10,6 @@ If you find mistakes in the above document or in this module, please,
 send an email to sebastien.riette@meteo.fr.
 """
 
-from __future__ import print_function, absolute_import, unicode_literals, division
-
 import sys
 import numpy as np
 

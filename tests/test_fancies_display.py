@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-
-from __future__ import print_function, absolute_import, unicode_literals, division
-
 from contextlib import contextmanager
-from six import StringIO
+from io import StringIO
 import os
 import sys
 import unittest
@@ -26,7 +23,7 @@ class FanciesDisplayTest(unittest.TestCase):
     @contextmanager
     def _quiet_stdout(self):
         oldstdout = sys.stdout
-        # io.open would be better but it fails in eclipse/pydev...
+        # open would be better but it fails in eclipse/pydev...
         with open(os.devnull, "w") as newstdout:
             sys.stdout = newstdout
             yield
