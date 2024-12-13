@@ -17,6 +17,7 @@ classifiers = [
     "License :: CeCILL-C Free Software License Agreement (CECILL-C)",
 ]
 dependencies = [
+    "pyyaml",
 ]
 dynamic = ["version"]
 
