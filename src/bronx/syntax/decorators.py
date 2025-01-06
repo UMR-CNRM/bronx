@@ -105,3 +105,17 @@ def secure_getattr(func):
         else:
             return func(self, key)
     return secured_getattr
+
+
+@nicedeco
+def init_before(mtd):
+    """
+    Decorator for methods: call method self._actual_init()
+    before actually calling method if not self.initialized.
+    """
+    def initialized(self, *args, **kwargs):
+        if not self._initialized:
+            self._actual_init()
+        return mtd(self, *args, **kwargs)
+    return initialized
+
