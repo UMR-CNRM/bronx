@@ -18,6 +18,7 @@ classifiers = [
 ]
 dependencies = [
     "pyyaml",
+    "numpy",
 ]
 dynamic = ["version"]
 
