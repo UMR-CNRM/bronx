@@ -19,6 +19,7 @@ def set_figax(figure=None, ax=None,
     using pyplot.subplots(), in which case any argument can be additionally
     passed through subplots_kw.
     """
+    import matplotlib.pyplot
     plt = matplotlib.pyplot
     if ax is not None and figure is None:
         figure = ax.figure
@@ -52,6 +53,7 @@ def set_nice_time_axis(axis, xy,
     :param datefmt: format for date
     :param tickslabelsrotation: angle in degrees, anti-clockwise order
     """
+    import matplotlib.pyplot
     mdates = matplotlib.dates
     plt = matplotlib.pyplot
 
