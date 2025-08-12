@@ -2,7 +2,6 @@
 Tools for handling axes within figures.
 """
 
-import matplotlib
 import datetime
 
 
@@ -19,8 +18,7 @@ def set_figax(figure=None, ax=None,
     using pyplot.subplots(), in which case any argument can be additionally
     passed through subplots_kw.
     """
-    import matplotlib.pyplot
-    plt = matplotlib.pyplot
+    import matplotlib.pyplot as plt
     if ax is not None and figure is None:
         figure = ax.figure
     elif ax is None and figure is not None:
@@ -53,9 +51,8 @@ def set_nice_time_axis(axis, xy,
     :param datefmt: format for date
     :param tickslabelsrotation: angle in degrees, anti-clockwise order
     """
-    import matplotlib.pyplot
-    mdates = matplotlib.dates
-    plt = matplotlib.pyplot
+    import matplotlib.pyplot as plt
+    import matplotlib.dates as mdates
 
     if xy == 'x':
         z_min = axis.axis()[0]
