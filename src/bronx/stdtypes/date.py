@@ -1471,7 +1471,12 @@ class Time(_GetattrCalculatorMixin):
             s_top = top.split('/')
             top = s_top[0]
             deltas = s_top[1:]
-            if re.match(r'^[+-]?P', top):  # This looks like a Period string...
+            if re.match(r'^\d+(\.\d+)$', top):
+                # If string is just a number then offload another time instance
+                float_based_time = Time(float(top))
+                self._hour = float_based_time._hour
+                self._minute = float_based_time._minute
+            elif re.match(r'^[+-]?P', top):  # This looks like a Period string...
                 newtime = Period(top).time()
                 self._hour, self._minute = newtime.hour, newtime.minute
             else:
