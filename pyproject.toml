@@ -28,17 +28,13 @@ repository = "https://github.com/UMR-CNRM/bronx"
 [project.optional-dependencies]
 docs = [
     "sphinx",
-    "numpy",
     "scipy",
     "matplotlib",
-    "pyyaml",
     "netCDF4",
     "Pillow"
 ]
 tests = [
-    "numpy",
     "scipy",
-    "pyyaml",
     "netCDF4",
 ]
 
