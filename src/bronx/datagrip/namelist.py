@@ -20,13 +20,13 @@ import re
 from decimal import Decimal
 
 from bronx.syntax.decorators import secure_getattr
-from bronx.syntax.externalcode import ExternalCodeImportChecker
 
-# Numpy is not mandatory
-npchecker = ExternalCodeImportChecker('numpy')
-with npchecker as npregister:
+try:
     import numpy as np
-    npregister.update(version=np.__version__)
+    _NUMPY_FOUND = True
+except ModuleNotFoundError:
+    _NUMPY_FOUND = False
+
 
 #: No automatic export
 __all__ = []
@@ -137,7 +137,7 @@ _F64_TYPES = [float, Decimal]
 _C64_TYPES = []
 _C128_TYPES = [complex]
 
-if npchecker.is_available():
+if _NUMPY_FOUND:
     # If NumPy is available, also recognise the associated data types
     _INT_TYPES.extend([np.int8, np.int16, np.int32, np.int64,
                        np.uint8, np.uint16, np.uint32, np.uint64, ])
